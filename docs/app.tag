@@ -2,7 +2,8 @@
     <app-header title="HATENA BLOG WRITER"
                 subtitle="はてなブログを書くための emacs lisp です。"></app-header>
 
-    <app-tabs click={this.clickTab}></app-tabs>
+    <app-tabs click={this.clickTab}
+              active={STORE.get('contents')}></app-tabs>
 
     <readme class="{this.display('readme')}"></readme>
     <usage class="{this.display('usage')}"></usage>
@@ -21,5 +22,9 @@
      this.display = function (name) {
          return STORE.get('contents')==name ? 'show' : 'hide';
      };
+
+     STORE.subscribe(function (action) {
+         this.update();
+     }.bind(this));
     </script>
 </app>
