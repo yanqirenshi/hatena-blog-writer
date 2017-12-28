@@ -1,15 +1,51 @@
 <directory-structure>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">文章のフォルダ構成</h1>
-            <p class="subtitle">
-            </p>
+    <app-section title="Description">
 
+        <p>
+            三つのデータがあります。
+        </p>
+
+        <table class="table is-bordered is-striped is-narrow is-hoverable">
+            <thead>
+                <tr>
+                    <th>class</th> <th>description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>user</td> <td>はてなユーザー</td>
+                </tr>
+                <tr>
+                    <td>blog</td> <td>ブログ</td>
+                </tr>
+                <tr>
+                    <td>entry</td> <td>ブログ・エントリー</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </app-section>
+
+    <app-section title="Lisp">
+        <app-section title="はてなユーザー">
+            <pre>(:id "..." :name "..." :class "user")</pre>
+        </app-section>
+
+        <app-section title="ブログ">
+            <pre>(:id "..." :name "..." :class "blog" :api-key)</pre>
+        </app-section>
+
+        <app-section title="ブログ・エントリー">
+            <pre>(:id "..." :title "..." :contents "..." :class "entry")</pre>
+        </app-section>
+    </app-section>
+
+    <app-section title="Directory">
+        <app-section title="文章のフォルダ構成">
             <div>
                 以下の構成でフォルダを構成します。
-
                 <pre><code>hatena-user ⇒ blog-id ⇒ entry-id</code></pre>
             </div>
-        </div>
-    </section>
+        </app-section>
+    </app-section>
 </directory-structure>
