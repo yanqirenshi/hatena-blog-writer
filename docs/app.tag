@@ -5,10 +5,16 @@
     <app-tabs click={this.clickTab}
               active={STORE.get('contents')}></app-tabs>
 
+    <!-- tab contents  -->
     <readme class="{this.display('readme')}"></readme>
+
     <usage class="{this.display('usage')}"></usage>
+
     <data-structures class="{this.display('data-structures')}"></data-structures>
-    <operators class="{this.display('operators')}"></operators>
+
+    <operators class="{this.display('operators')}"
+               operators={STORE.get('operators')}></operators>
+    <!-- tab contents  -->
 
     <app-footer></app-footer>
 

@@ -16,6 +16,7 @@ var STORE = new Simple_Redux_Store (REDUCER, {
         var len = location.hash.length;
         return location.hash.substring(1,len);
     }())
+    , operators: _OPERATORS
 });
 
 /// riot
