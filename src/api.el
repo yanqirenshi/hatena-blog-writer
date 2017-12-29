@@ -2,11 +2,11 @@
 ;;; uri
 ;;;
 (defun hatena-blog-writer-api-root-uri (hatena-id hatena-blog-id)
-  "てなブログAtomPub のルートの URI を返す"
+  "はてなブログAtomPub のルートの URI を返す"
   (format "https://blog.hatena.ne.jp/%s/%s/atom" hatena-id hatena-blog-id))
 
 (defun hatena-blog-writer-api-entry-uri (hatena-id hatena-blog-id &optional entry_id)
-  "てなブログAtomPub の Entry の URI を返す"
+  "はてなブログAtomPub の Entry の URI を返す"
   (let* ((base-uri (hatena-blog-writer-api-root-uri hatena-id hatena-blog-id))
          (entry-uri (concat base-uri "/entry")))
     (if (null entry_id)
@@ -14,7 +14,7 @@
       (format "%s/%s" entry-uri entry_id))))
 
 (defun hatena-blog-writer-api-category-uri (hatena-id hatena-blog-id)
-  "てなブログAtomPub の カテゴリ の URI を返す"
+  "はてなブログAtomPub の カテゴリ の URI を返す"
   (concat (hatena-blog-writer-api-root-uri hatena-id hatena-blog-id)
           "/category"))
 
@@ -22,12 +22,12 @@
 ;;; header
 ;;;
 (defun hatena-blog-writer-request-header-auth (hatena-id hatena-blog-api-key)
-  "はてなブログ AtomPub の Basic認証 のためのヘッダ: Authorization の値を返します。"
+  "はてなブログ AtomPub の Basic認証 のためのヘッダ: Authorization の値を返す"
   (concat "Basic "
           (base64-encode-string (concat hatena-id ":" hatena-blog-api-key))))
 
 (defun hatena-blog-writer-request-headers (hatena-id hatena-blog-api-key)
-  "はてなブログ AtomPub にリクエストを投げるためのヘッダを返します。"
+  "はてなブログ AtomPub にリクエストを投げるためのヘッダを返す"
   `(("Content-Type" . "application/x-www-form-urlencoded")
     ("Authorization" . ,(hatena-blog-writer-request-header-auth hatena-id hatena-blog-api-key))))
 
@@ -35,7 +35,7 @@
 ;;; request
 ;;;
 (defun hatena-blog-writer-request-method2type (method)
-  "method (keyword) を request.el の type (string) に変換する。"
+  "method (keyword) を request.el の type (string) に変換する"
   (cond ((eq method :get) "GET")
         ((eq method :post) "POST")
         (t (error "bad method %s" method))))
@@ -63,7 +63,7 @@
   "request.el 用のデフォルトのコールバック関数")
 
 (defun hatena-blog-writer-request-get-func (funcs type)
-  "request のコールバック関数を返します。
+  "request のコールバック関数を返す。
 funcsに コールバック関数 が存在しない場合はデフォルトのコールバック関数を返します。"
   (cond ((eq type :parser)
          (or (plist-get funcs :parser)
@@ -85,7 +85,7 @@ funcsに コールバック関数 が存在しない場合はデフォルトの�
                                    hatena-blog-api-key
                                    funcs
                                    &optional entry-id)
-  "hatena-blog-writer の request ユーティリティ関数です。"
+  "hatena-blog-writer の request ユーティリティ関数"
   (request uri
            :type     (hatena-blog-writer-request-method2type method)
            :headers  (hatena-blog-writer-request-headers hatena-id
