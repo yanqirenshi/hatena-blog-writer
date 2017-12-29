@@ -9,7 +9,7 @@ var _VARIABLES = [
         symbol: '*hatena-blog-writer-blogs*',
         type: 'Custom Variable',
         description: 'はてなユーザーのブログのリストを保持する変数。',
-        file: 'blog.el'
+        file: 'hatena-blog-writer.el'
     }
     , {
         symbol: '*hatena-blog-writer-request-default-callback-parser*',
