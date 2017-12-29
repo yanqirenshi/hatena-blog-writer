@@ -6,3 +6,21 @@
   (when (listp d)
     (string= "blog"
              (getf d :class))))
+
+(defun %hatena-blog-writer-get-blog (blog-id blogs)
+  (let* ((blog (car blogs))
+         (_blog-id (plist-get blog :id)))
+    (if (string= blog-id _blog-id)
+        blog
+      (%hatena-blog-writer-get-blog blog-id (cdr blogs)))))
+
+(defun hatena-blog-writer-get-blog (blog-id)
+  (%hatena-blog-writer-get-blog blog-id *hatena-blog-writer-blogs*))
+
+(defun hatena-blog-writer-add-blog (blog)
+  (unless (hatena-blog-writer-blog-p blog)
+    (error "Error: data type is not blog. data=%s" blog))
+  (when (hatena-blog-writer-get-blog (plist-get blog :id))
+    (error "Error: aledy exist this blog. data=%s" blog))
+  (let ((new-blogs (append *hatena-blog-writer-blogs* (list blog))))
+      (custom-set-variables '(*hatena-blog-writer-blogs* new-blogs))))
