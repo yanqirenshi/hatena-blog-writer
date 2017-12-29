@@ -1,5 +1,5 @@
 <directory-structure>
-    <app-section title="Description">
+    <app-section title="Description" level="2">
         <div class="content">
             <p>
                 HATENA-BLOG-WRITE は Web 上のエントリーをローカルにダウンロードして管理します。
@@ -9,7 +9,8 @@
             </p>
         </div>
     </app-section>
-    <app-section title="Directory">
+
+    <app-section title="Directory" level="2">
         <div class="content">
             以下の構成でフォルダを構成します。
             <pre>
@@ -31,7 +32,7 @@
             </pre>
         </div>
 
-        <app-section title="master.lisp">
+        <app-section title="master.lisp" level="3">
             <div class="content">
                 <p>
                     Web 上のエントリの情報。
@@ -43,7 +44,7 @@
             </div>
         </app-section>
 
-        <app-section title="contents.md">
+        <app-section title="contents.md" level="3">
             <div class="content">
                 <p>
                     ブログの本文。
@@ -60,7 +61,7 @@
             </div>
         </app-section>
 
-        <app-section title="title.txt">
+        <app-section title="title.txt" level="3">
             <div class="content">
                 <p>
                     ブログのタイトル。

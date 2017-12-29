@@ -1,19 +1,42 @@
 <readme>
     <description></description>
 
-    <section class="section">
-        <div class="container">
-            <h1 class="title">Instration</h1>
-            <h2 class="subtitle"></h2>
-            <div class="content"></div>
+    <app-section title="Instration" level="2">
+        <div class="content">
+            <p>melpa に入れるまでは以下でインストール。</p>
+            <p>
+                <pre>(load "~/.emacs.d/dist/prj/hatena-blog-writer/hatena-blog-writer.el")</pre>
+            </p>
         </div>
-    </section>
+    </app-section>
 
-    <section class="section">
-        <div class="container">
-            <h1 class="title">Usage</h1>
-            <h2 class="subtitle"></h2>
-            <div class="content"></div>
+    <app-section title="Usage" level="2">
+        <div class="content">
+            <p>こんな感じにしたい。</p>
+            <p>
+                <pre>
+;; ユーザーを追加する。
+M-x add-user
+;; ブログを追加するする。
+M-x add-blog
+
+;; 作業ユーザーを決める。
+M-x change-user
+;; 作業ブログを決める。
+M-x change-user
+
+;; ブログ・エントリーをサーバーからダウンロードする。
+M-x refresh
+;; ブログ・エントリーの一覧を表示する。
+M-x hatena-blog-status
+;; ブログ・エントリーを編集する
+M-x open-entry-contents
+;; ブログ・エントリーの差分を確認する。
+M-x diff
+;; ブログ・エントリーをアップロードする。
+M-x upload
+                </pre>
+            </p>
         </div>
-    </section>
+    </app-section>
 </readme>

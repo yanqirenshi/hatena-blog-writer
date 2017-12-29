@@ -2,7 +2,7 @@
     <section class="hero">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">
+                <h1 class="title is-1">
                     {this.opts.title}
                 </h1>
                 <h2 class="subtitle">

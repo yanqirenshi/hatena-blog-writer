@@ -1,19 +1,12 @@
 <description>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">
-                Description
-            </h1>
-            <h2 class="subtitle"></h2>
-
+    <app-section title="Description" level="2">
+        <div class="content">
             <p>
                 はてなブログとローカルのディレクトリの同期を取ります。
             </p>
             <p>
-                基本的にユーザーはローカルでブログを編集します。
-                そこで編集した情報をはてなブログへ push します。
+                基本的にユーザーはローカルでブログを編集します。 そこで編集した情報をはてなブログへ push します。
             </p>
-
         </div>
-    </section>
+    </app-section>
 </description>
