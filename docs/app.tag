@@ -12,6 +12,8 @@
 
     <data-structures class="{this.display('data-structures')}"></data-structures>
 
+    <directory-structure  class="{this.display('directory-structure')}"></directory-structure>
+
     <symbols class="{this.display('symbols')}"
              operators={STORE.get('operators')}
              variables={STORE.get('variables')}></symbols>

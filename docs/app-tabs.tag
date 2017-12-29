@@ -9,16 +9,25 @@
                             <span>概要</span>
                         </a>
                     </li>
+
                     <li class={this.isActive('usage')}>
                         <a href="#usage">
                             <span>使い方</span>
                         </a>
                     </li>
+
                     <li class={this.isActive('data-structures')}>
                         <a href="#data-structures">
                             <span>データ構成</span>
                         </a>
                     </li>
+
+                    <li class={this.isActive('directory-structure')}>
+                        <a href="#directory-structure">
+                            <span>ディレクトリ構成</span>
+                        </a>
+                    </li>
+
                     <li class={this.isActive('symbols')}>
                         <a href="#symbols">
                             <span>シンボル</span>

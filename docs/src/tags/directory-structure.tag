@@ -1,10 +1,16 @@
 <directory-structure>
     <app-section title="Directory">
-        <app-section title="文章のフォルダ構成">
-            <div>
-                以下の構成でフォルダを構成します。
-                <pre><code>hatena-user ⇒ blog-id ⇒ entry-id</code></pre>
-            </div>
-        </app-section>
+        <div>
+            以下の構成でフォルダを構成します。
+            <pre>
+~/.hatena
+　　└ blog/
+　　　　└ \{hatena-id\}
+　　　　　　├ \{blog-id\}
+　　　　　　│　　├ \{entry-id\}
+　　　　　　│　　│　　├ contents.md
+　　　　　　│　　│　　└ title.txt
+            </pre>
+        </div>
     </app-section>
 </directory-structure>

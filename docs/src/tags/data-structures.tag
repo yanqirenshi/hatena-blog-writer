@@ -39,6 +39,4 @@
             <pre>(:id "..." :title "..." :contents "..." :class "entry")</pre>
         </app-section>
     </app-section>
-
-    <directory-structure></directory-structure>
 </data-structures>
