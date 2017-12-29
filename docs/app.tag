@@ -12,8 +12,9 @@
 
     <data-structures class="{this.display('data-structures')}"></data-structures>
 
-    <operators class="{this.display('operators')}"
-               operators={STORE.get('operators')}></operators>
+    <symbols class="{this.display('symbols')}"
+             operators={STORE.get('operators')}
+             variables={STORE.get('variables')}></symbols>
     <!-- tab contents  -->
 
     <app-footer></app-footer>

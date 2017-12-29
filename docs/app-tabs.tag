@@ -19,9 +19,9 @@
                             <span>データ構成</span>
                         </a>
                     </li>
-                    <li class={this.isActive('operators')}>
-                        <a href="#operators">
-                            <span>Operators</span>
+                    <li class={this.isActive('symbols')}>
+                        <a href="#symbols">
+                            <span>シンボル</span>
                         </a>
                     </li>
                 </ul>
