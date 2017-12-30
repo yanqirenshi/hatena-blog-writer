@@ -12,6 +12,18 @@ var _VARIABLES = [
         file: 'hatena-blog-writer.el'
     }
     , {
+        symbol: '*hatena-blog-writer-current-user*',
+        type: 'Custom Variable',
+        description: '選択されているはてなユーザー',
+        file: 'hatena-blog-writer.el'
+    }
+    , {
+        symbol: '*hatena-blog-writer-current-blog*',
+        type: 'Custom Variable',
+        description: '選択されているはてなユーザーのブログ',
+        file: 'hatena-blog-writer.el'
+    }
+    , {
         symbol: '*hatena-blog-writer-request-default-callback-parser*',
         type: 'Variable',
         description: 'request.el 用のデフォルトのコールバック関数(:parser)',

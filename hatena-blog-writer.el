@@ -12,6 +12,13 @@
   "はてなユーザーのブログリスト"
   :group 'hatena-blog-writer)
 
+(defcustom *hatena-blog-writer-current-user*  nil
+  "選択されているはてなユーザー"
+  :group 'hatena-blog-writer)
+
+(defcustom *hatena-blog-writer-current-blog*  nil
+  "選択されているはてなユーザーのブログ"
+  :group 'hatena-blog-writer)
 
 (load "~/prj/hatena-blog-writer/src/filer.el")
 (load "~/prj/hatena-blog-writer/src/xml.el")
