@@ -6,17 +6,17 @@
               active={STORE.get('contents')}></app-tabs>
 
     <!-- tab contents  -->
-    <readme class="{this.display('readme')}"></readme>
+    <tab-readme class="{this.display('readme')}"></tab-readme>
 
-    <usage class="{this.display('usage')}"></usage>
+    <tab-usage class="{this.display('usage')}"></tab-usage>
 
-    <data-structures class="{this.display('data-structures')}"></data-structures>
+    <tab-data-structures class="{this.display('data-structures')}"></tab-data-structures>
 
-    <directory-structure  class="{this.display('directory-structure')}"></directory-structure>
+    <tab-directory-structure  class="{this.display('directory-structure')}"></tab-directory-structure>
 
-    <symbols class="{this.display('symbols')}"
-             operators={STORE.get('operators')}
-             variables={STORE.get('variables')}></symbols>
+    <tab-symbols class="{this.display('symbols')}"
+                 operators={STORE.get('operators')}
+                 variables={STORE.get('variables')}></tab-symbols>
     <!-- tab contents  -->
 
     <app-footer></app-footer>

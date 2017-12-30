@@ -1,4 +1,4 @@
-<readme>
+<tab-readme>
     <description></description>
 
     <app-section title="Instration" level="2">
@@ -39,4 +39,4 @@ M-x upload
             </p>
         </div>
     </app-section>
-</readme>
+</tab-readme>

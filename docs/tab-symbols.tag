@@ -1,5 +1,5 @@
-<symbols>
-    <app-section title="Description">
+<tab-symbols>
+    <app-section title="Description" level="2">
         <div class="content">
             <p>
                 HATENA-BLOG-WRITE のシンボルの一覧です。
@@ -16,4 +16,4 @@
 
     <variables variables={this.opts.variables}></variables>
     <operators operators={STORE.get('operators')}></operators>
-</symbols>
+</tab-symbols>

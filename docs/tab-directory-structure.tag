@@ -1,4 +1,4 @@
-<directory-structure>
+<tab-directory-structure>
     <app-section title="Description" level="2">
         <div class="content">
             <p>
@@ -80,4 +80,4 @@
             </div>
         </app-section>
     </app-section>
-</directory-structure>
+</tab-directory-structure>

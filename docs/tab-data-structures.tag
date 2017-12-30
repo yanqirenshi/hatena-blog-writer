@@ -1,4 +1,4 @@
-<data-structures>
+<tab-data-structures>
     <app-section title="Description">
 
         <p>
@@ -39,4 +39,4 @@
             <pre>(:id "..." :title "..." :contents "..." :class "entry")</pre>
         </app-section>
     </app-section>
-</data-structures>
+</tab-data-structures>

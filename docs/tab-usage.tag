@@ -1,4 +1,4 @@
-<usage>
+<tab-usage>
     <section class="section">
         <div class="container">
             <h1 class="title">
@@ -7,4 +7,4 @@
             <h2 class="subtitle"></h2>
         </div>
     </section>
-</usage>
+</tab-usage>
