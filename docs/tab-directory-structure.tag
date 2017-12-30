@@ -79,5 +79,11 @@
                 </p>
             </div>
         </app-section>
+
+    </app-section>
+
+    <app-section title="Symbols" level="2" operators={this.opts.operators}>
+        <operators operators={this.opts.operators}
+                   files={["filer.el"]}></operators>
     </app-section>
 </tab-directory-structure>

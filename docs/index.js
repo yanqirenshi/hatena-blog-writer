@@ -1,3 +1,5 @@
+var L = new LISP ();
+
 /// router
 route(function(collection, id, action) {
     STORE.dispatch(ACTIONS.movePage({

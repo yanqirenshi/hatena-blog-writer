@@ -7,12 +7,36 @@
             <th>file</th>
         </thead>
         <tbody>
-            <tr each={this.opts.data}>
+            <tr each={this.filter(this.opts)}>
                 <td>{type}</td>
-                <td><b>{symbol}</b></td>
+                <td style="white-space: nowrap;"><b>{symbol}</b></td>
                 <td>{description}</td>
-                <td>{file}</td>
+                <td style="white-space: nowrap;">{file}</td>
             </tr>
         </tbody>
     </table>
+
+    <script>
+     this.query = function (data, files) {
+         if (files)
+             return L.find(data.file, files, function (a,b) {
+                 return a == b;
+             })
+
+         return true;
+     }.bind(this);
+
+     this.filter = function (opts) {
+         var out = [];
+
+         var data = opts.data;
+         var files = opts.files;
+
+         for (var i in data)
+             if (this.query(data[i], files))
+                 out.push(data[i]);
+
+         return out;
+     }.bind(this);
+    </script>
 </operators-list>

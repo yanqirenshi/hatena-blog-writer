@@ -116,6 +116,45 @@ var _OPERATORS = [
         description: 'hatena-blog-writer の request ユーティリティ関数',
         file: 'api.el'
     }
+    /* ****************************************************************
+       filer.el
+       **************************************************************** */
+    , {
+        symbol: 'hatena-blog-writer-ensure-dir-hatena',
+        type: 'function',
+        description: '',
+        file: 'filer.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-ensure-dir-hatena-blog',
+        type: 'function',
+        description: '',
+        file: 'filer.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-ensure-dir-hatena-blog-user',
+        type: 'function',
+        description: '',
+        file: 'filer.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-ensure-dir-hatena-blog-blog',
+        type: 'function',
+        description: '',
+        file: 'filer.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-ensure-dir-state-keyword2str',
+        type: 'function',
+        description: '',
+        file: 'filer.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-ensure-dir-hatena-blog-entry',
+        type: 'function',
+        description: '',
+        file: 'filer.el'
+    }
 ];
 /*
     , {

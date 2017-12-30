@@ -12,7 +12,8 @@
 
     <tab-data-structures class="{this.display('data-structures')}"></tab-data-structures>
 
-    <tab-directory-structure  class="{this.display('directory-structure')}"></tab-directory-structure>
+    <tab-directory-structure class="{this.display('directory-structure')}"
+                             operators={STORE.get('operators')}></tab-directory-structure>
 
     <tab-symbols class="{this.display('symbols')}"
                  operators={STORE.get('operators')}
