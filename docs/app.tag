@@ -10,7 +10,8 @@
 
     <tab-usage class="{this.display('usage')}"></tab-usage>
 
-    <tab-data-structures class="{this.display('data-structures')}"></tab-data-structures>
+    <tab-data-structures class="{this.display('data-structures')}"
+                         variables={STORE.get('variables')}></tab-data-structures>
 
     <tab-directory-structure class="{this.display('directory-structure')}"
                              operators={STORE.get('operators')}></tab-directory-structure>

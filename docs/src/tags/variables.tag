@@ -6,7 +6,8 @@
 
             <section class="section">
                 <div class="container">
-                    <operators-list data={this.opts.variables}></operators-list>
+                    <operators-list data={this.opts.variables}
+                                    files={this.opts.files}></operators-list>
                 </div>
             </section>
         </div>
