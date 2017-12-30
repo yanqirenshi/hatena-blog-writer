@@ -10,6 +10,8 @@
   "はてなユーザーのブログリスト"
   :group 'hatena-blog-writer)
 
+
+(load "~/prj/hatena-blog-writer/src/filer.el")
 (load "~/prj/hatena-blog-writer/src/xml.el")
 (load "~/prj/hatena-blog-writer/src/api.el")
 (load "~/prj/hatena-blog-writer/src/user.el")
