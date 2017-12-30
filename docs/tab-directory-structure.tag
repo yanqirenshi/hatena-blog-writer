@@ -15,22 +15,36 @@
             以下の構成でフォルダを構成します。
             <pre>
 ~/.hatena
-　　└ blog/
-　　　　└ \{hatena-id\}
-　　　　　　├ \{blog-id\}
-　　　　　　│　　├ published
-　　　　　　│　　│　　├ \{entry-id\}
-　　　　　　│　　│　　│　　├ master.lisp
-　　　　　　│　　│　　│　　├ contents.md
-　　　　　　│　　│　　│　　└ title.txt
-　　　　　　│　　│
-　　　　　　│　　├ draft
-　　　　　　│　　│　　├ \{entry-id\}
-　　　　　　│　　│　　│　　├ master.lisp
-　　　　　　│　　│　　│　　├ contents.md
-　　　　　　│　　│　　│　　└ title.txt
+　　├ blog/
+　　│　　├ config/
+　　│　　│　├ users.lisp
+　　│　　│　└ blogs.lisp
+　　│　　│
+　　│　　└ \{hatena-id\}
+　　│　　　　├ \{blog-id\}
+　　│　　　　│　　├ published
+　　│　　　　│　　│　　├ \{entry-id\}
+　　│　　　　│　　│　　│　　├ master.lisp
+　　│　　　　│　　│　　│　　├ contents.md
+　　│　　　　│　　│　　│　　└ title.txt
+　　│　　　　│　　│
+　　│　　　　│　　├ draft
+　　│　　　　│　　│　　├ \{entry-id\}
+　　│　　　　│　　│　　│　　├ master.lisp
+　　│　　　　│　　│　　│　　├ contents.md
+　　│　　　　│　　│　　│　　└ title.txt
             </pre>
         </div>
+
+        <app-section title="users.lisp" level="3">
+            <div class="content">
+            </div>
+        </app-section>
+
+        <app-section title="blogs.lisp" level="3">
+            <div class="content">
+            </div>
+        </app-section>
 
         <app-section title="master.lisp" level="3">
             <div class="content">
