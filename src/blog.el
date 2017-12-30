@@ -9,6 +9,11 @@
     (string= "blog"
              (getf d :class))))
 
+(defun hatena-blog-writer-change-blog (blog)
+  (unless hatena-blog-writer-blog-p
+    (error "Not blog. blog=%s" blog))
+  (custom-set-variables '(*hatena-blog-writer-current-blog* blog)))
+
 (defun %hatena-blog-writer-get-blog (blog-id blogs)
   (let* ((blog (car blogs))
          (_blog-id (plist-get blog :id)))

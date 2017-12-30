@@ -8,5 +8,10 @@
     (string= "user"
              (getf d :class))))
 
+(defun hatena-blog-writer-change-user (user)
+  (unless hatena-blog-writer-user-p
+    (error "Not user. user=%s" user))
+  (custom-set-variables '(*hatena-blog-writer-current-user* user)))
+
 (defun hatena-blog-writer-set-user (user)
   (custom-set-variables '(*hatena-blog-writer-user* user)))
