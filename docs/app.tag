@@ -10,6 +10,8 @@
 
     <tab-usage class="{this.display('usage')}"></tab-usage>
 
+    <tab-gui class="{this.display('gui')}"></tab-gui>
+
     <tab-data-structures class="{this.display('data-structures')}"
                          variables={STORE.get('variables')}></tab-data-structures>
 

@@ -1,3 +1,5 @@
+;;; -*- coding: utf-8; lexical-binding: t -*-
+
 (require 'xml)
 (require 'url)
 (require 'request)

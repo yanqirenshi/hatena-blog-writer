@@ -1,3 +1,5 @@
+;;; -*- coding: utf-8; lexical-binding: t -*-
+
 (defun hatena-blog-writer-make-user (id name)
   (list :id id :name name :class "user"))
 

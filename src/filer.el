@@ -1,3 +1,5 @@
+;;; -*- coding: utf-8; lexical-binding: t -*-
+
 (defun hatena-blog-writer-ensure-dir-hatena ()
   (unless (file-exists-p "~/.hatena/")
     (make-directory "~/.hatena/")))

@@ -1,3 +1,5 @@
+;;; -*- coding: utf-8; lexical-binding: t -*-
+
 (defun xml-node-chidren-with-cleanup (xml)
   "XMLをパースするのに不要な空白を除去したもの(リスト)を返す。"
   (let ((children (xml-node-children xml))

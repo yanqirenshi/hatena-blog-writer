@@ -16,6 +16,12 @@
                         </a>
                     </li>
 
+                    <li class={this.isActive('gui')}>
+                        <a href="#gui">
+                            <span>GUI</span>
+                        </a>
+                    </li>
+
                     <li class={this.isActive('data-structures')}>
                         <a href="#data-structures">
                             <span>データ構成</span>
