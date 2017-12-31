@@ -8,10 +8,14 @@
     (string= "entry"
              (getf d :class))))
 
-(defun hatena-blog-writer-api-entry-get (hatena-id hatena-blog-id &optional entry-id)
-  (let ((user *hatena-blog-writer-user*)
-        (blog (hatena-blog-writer-get-blog hatena-blog-id))
-        (uri (hatena-blog-writer-api-entry-uri hatena-id
+(defun hatena-blog-writer-api-entry-get (user
+                                         blog
+                                         &optional entry-id)
+  (unless (hatena-blog-writer-user-p user)
+    (error "Not user. user=%s" user))
+  (unless (hatena-blog-writer-user-p user)
+    (error "Not blo. blog=%s" blog))
+  (let ((uri (hatena-blog-writer-api-entry-uri hatena-id
                                                hatena-blog-id
                                                entry-id)))
     (hatena-blog-writer-request :get
