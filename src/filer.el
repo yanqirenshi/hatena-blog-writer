@@ -39,3 +39,35 @@
                      (plist-get entry :id))))
     (unless (file-exists-p dir)
       (make-directory dir))))
+
+;;;
+;;; save and load users
+;;;
+(defun hatena-blog-writer-save-users ()
+  (let ((filename "~/.hatena/blog/config/users.lisp")
+        (users *hatena-blog-writer-users*))
+    (with-temp-buffer
+      (insert (format "%S" users))
+      (write-file filename))))
+
+(defun hatena-blog-writer-load-users ()
+  (let ((filename "~/.hatena/blog/config/users.lisp"))
+    (with-temp-buffer
+      (insert-file-contents filename)
+      (setq *hatena-blog-writer-users* (read (buffer-string))))))
+
+;;;
+;;; save blogs
+;;;
+(defun hatena-blog-writer-save-blogs ()
+  (let ((filename "~/.hatena/blog/config/blogs.lisp")
+        (blogs *hatena-blog-writer-blogs*))
+    (with-temp-buffer
+      (insert (format "%S" blogs))
+      (write-file filename))))
+
+(defun hatena-blog-writer-load-blogs ()
+  (let ((filename "~/.hatena/blog/config/blogs.lisp"))
+    (with-temp-buffer
+      (insert-file-contents filename)
+      (setq *hatena-blog-writer-blogs* (read (buffer-string))))))

@@ -26,10 +26,10 @@
   (when (hatena-blog-writer-get-blog (plist-get blog :id))
     (error "Error: aledy exist this blog. data=%s" blog))
   (let ((new-blogs (append *hatena-blog-writer-blogs* (list blog))))
-      (custom-set-variables '(*hatena-blog-writer-blogs* new-blogs))))
+      (setf *hatena-blog-writer-blogs* new-blogs)))
 
 (defun hatena-blog-writer-change-blog (blog-id)
   (let ((blog (hatena-blog-writer-get-blog blog-id)))
     (unless blog
       (error "Not exit blog. blog-id=%s" blog-id))
-    (custom-set-variables '(*hatena-blog-writer-current-blog* blog))))
+    (setf *hatena-blog-writer-current-blog* blog)))

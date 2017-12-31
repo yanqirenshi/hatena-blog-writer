@@ -18,11 +18,10 @@
   (when (hatena-blog-writer-get-user (plist-get user :id))
     (error "Error: aledy exist this user. data=%s" user))
   (let ((new-users (append *hatena-blog-writer-users* (list user))))
-    (princ new-users)
-    (custom-set-variables '(*hatena-blog-writer-users* new-users))))
+    (setf *hatena-blog-writer-users* new-users)))
 
 (defun hatena-blog-writer-change-user (user-id)
   (let ((user (hatena-blog-writer-get-user user-id)))
     (unless user
       (error "Not exit user. user=%s" user-id))
-    (custom-set-variables '(*hatena-blog-writer-current-user* user))))
+    (setf *hatena-blog-writer-current-user* user)))
