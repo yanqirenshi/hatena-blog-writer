@@ -20,12 +20,12 @@
   "選択されているはてなユーザーのブログ"
   :group 'hatena-blog-writer)
 
-(load "~/prj/hatena-blog-writer/src/utility.el")
-(load "~/prj/hatena-blog-writer/src/filer.el")
-(load "~/prj/hatena-blog-writer/src/xml.el")
-(load "~/prj/hatena-blog-writer/src/api.el")
-(load "~/prj/hatena-blog-writer/src/user.el")
-(load "~/prj/hatena-blog-writer/src/blog.el")
-(load "~/prj/hatena-blog-writer/src/entry.el")
+(load "./src/utility.el")
+(load "./src/filer.el")
+(load "./src/xml.el")
+(load "./src/api.el")
+(load "./src/user.el")
+(load "./src/blog.el")
+(load "./src/entry.el")
 
-(provide 'hatena-blog-writer-mode)
+(provide 'hatena-blog-writer)
