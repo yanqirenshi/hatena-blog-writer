@@ -44,7 +44,8 @@
 
 (defvar *hatena-blog-writer-request-default-callback-parser*
   (lambda ()
-    (xml-parse-region (point) (point-max)))
+    (hatena-blog-writer-cleanup-xml
+     (xml-parse-region (point) (point-max))))
   "request.el 用のデフォルトのコールバック関数")
 
 (defvar *hatena-blog-writer-request-default-callback-success*
