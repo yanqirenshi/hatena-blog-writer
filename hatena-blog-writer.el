@@ -4,7 +4,7 @@
 (require 'url)
 (require 'request)
 
-(defcustom *hatena-blog-writer-user*  nil
+(defcustom *hatena-blog-writer-users*  nil
   "はてなユーザー"
   :group 'hatena-blog-writer)
 
@@ -20,6 +20,7 @@
   "選択されているはてなユーザーのブログ"
   :group 'hatena-blog-writer)
 
+(load "~/prj/hatena-blog-writer/src/utility.el")
 (load "~/prj/hatena-blog-writer/src/filer.el")
 (load "~/prj/hatena-blog-writer/src/xml.el")
 (load "~/prj/hatena-blog-writer/src/api.el")

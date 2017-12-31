@@ -17,7 +17,8 @@
       (%hatena-blog-writer-get-blog blog-id (cdr blogs)))))
 
 (defun hatena-blog-writer-get-blog (blog-id)
-  (%hatena-blog-writer-get-blog blog-id *hatena-blog-writer-blogs*))
+  (hatena-blog-writer-get-data-at-id blog-id
+                                     *hatena-blog-writer-blogs*))
 
 (defun hatena-blog-writer-add-blog (blog)
   (unless (hatena-blog-writer-blog-p blog)
