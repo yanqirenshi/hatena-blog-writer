@@ -6,3 +6,6 @@
       (if (string= id (plist-get data :id))
           data
           (hatena-blog-writer-get-data-at-id id (cdr data-list))))))
+
+(defun string-trim (str)
+  (s-trim str))

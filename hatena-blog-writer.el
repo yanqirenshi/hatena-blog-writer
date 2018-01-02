@@ -3,6 +3,7 @@
 (require 'xml)
 (require 'url)
 (require 'request)
+(require 's)
 
 (defvar *hatena-blog-writer-users*  nil
   "はてなユーザー")

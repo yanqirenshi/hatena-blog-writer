@@ -71,3 +71,28 @@
     (with-temp-buffer
       (insert-file-contents filename)
       (setq *hatena-blog-writer-blogs* (read (buffer-string))))))
+
+;;;
+;;; save entry master
+;;;
+(defun hatena-blog-writer-save-entry-master (user-id blog-id entry-id entry)
+  (let ((filename (format "~/.hatena/blog/%s/%s/%s/master.el"
+                          user-id
+                          blog-id
+                          entry-id)))
+    (with-temp-buffer
+      (insert (format "%S" entry))
+      (write-file filename))))
+
+;;;
+;;; save entry contents
+;;;
+(defun hatena-blog-writer-save-entry-contents (user-id blog-id entry-id title contents)
+  (let ((filename (format "~/.hatena/blog/%s/%s/%s/contents.md"
+                          user-id
+                          blog-id
+                          entry-id)))
+    (with-temp-buffer
+      (insert (format "%s\n" title))
+      (insert (format "%s" contents))
+      (write-file filename))))
