@@ -72,6 +72,16 @@
       (insert-file-contents filename)
       (setq *hatena-blog-writer-blogs* (read (buffer-string))))))
 
+
+(defun hatena-blog-writer-save-entry-file-name (type entry)
+  (multiple-value-bind (user-id blog-id entry-id)
+      (hatena-blog-writer-api-entry-get-parse-uri2 entry)
+    (format "~/.hatena/blog/%s/%s/%s/%s.el"
+            user-id
+            blog-id
+            entry-id
+            type)))
+
 ;;;
 ;;; save entry master
 ;;;
@@ -83,6 +93,13 @@
     (with-temp-buffer
       (insert (format "%S" entry))
       (write-file filename))))
+
+(defun hatena-blog-writer-save-entry-master2 (entry)
+  (multiple-value-bind (user-id blog-id entry-id)
+      (hatena-blog-writer-api-entry-get-parse-uri2 entry)
+  (with-temp-buffer
+      (insert (format "%S" entry))
+      (write-file (hatena-blog-writer-save-entry-file-name "master" entry)))))
 
 ;;;
 ;;; save entry contents
@@ -96,3 +113,15 @@
       (insert (format "%s\n" title))
       (insert (format "%s" contents))
       (write-file filename))))
+
+(defun hatena-blog-writer-save-entry-contents2 (entry)
+  (multiple-value-bind (user-id blog-id entry-id)
+      (hatena-blog-writer-api-entry-get-parse-uri2 entry)
+    (flet ((get-val (entry key)
+                    (let ((elements (car (xml-node-children entry))))
+                      (caar (xml-node-children (assoc key elements))))))
+      (with-temp-buffer
+        (insert (format "%s\n" (get-val entry 'title)))
+        (insert (format "%s" (get-val entry 'content)))
+        (write-file (hatena-blog-writer-save-entry-file-name "contents"
+                                                             entry))))))
