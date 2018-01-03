@@ -2,7 +2,7 @@
     <section class="hero">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title is-1">
+                <h1 class="title is-1" style="color: #6550EC;">
                     {this.opts.title}
                 </h1>
                 <h2 class="subtitle">

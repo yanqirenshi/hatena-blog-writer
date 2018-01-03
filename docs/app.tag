@@ -1,4 +1,6 @@
 <app>
+    <link-git-repository></link-git-repository>
+
     <app-header title="HATENA BLOG WRITER"
                 subtitle="はてなブログを書くための emacs lisp です。"></app-header>
 

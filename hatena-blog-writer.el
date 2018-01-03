@@ -32,6 +32,7 @@
 (load "./src/entry/util.el")
 (load "./src/entry/api-entry-get.el")
 (load "./src/entry/api-entry-find.el")
+(load "./src/entry/api-entry-post.el")
 
 (hatena-blog-writer-load-users)
 (hatena-blog-writer-load-blogs)
