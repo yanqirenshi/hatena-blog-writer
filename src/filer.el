@@ -72,15 +72,16 @@
       (insert-file-contents filename)
       (setq *hatena-blog-writer-blogs* (read (buffer-string))))))
 
-
 (defun hatena-blog-writer-save-entry-file-name (type entry)
   (multiple-value-bind (user-id blog-id entry-id)
       (hatena-blog-writer-api-entry-get-parse-uri2 entry)
-    (format "~/.hatena/blog/%s/%s/%s/%s.el"
+    (format "~/.hatena/blog/%s/%s/%s/%s"
             user-id
             blog-id
             entry-id
-            type)))
+            (cond ((string= "master" type) "master.el")
+                  ((string= "contents" type) "contents.md")
+                  (t error "Funck'n error! bad type. type=%s" type)))))
 
 ;;;
 ;;; save entry master
@@ -120,8 +121,6 @@
     (flet ((get-val (entry key)
                     (let ((elements (car (xml-node-children entry))))
                       (caar (xml-node-children (assoc key elements))))))
-      (with-temp-buffer
+      (with-temp-file (hatena-blog-writer-save-entry-file-name "contents" entry)
         (insert (format "%s\n" (get-val entry 'title)))
-        (insert (format "%s" (get-val entry 'content)))
-        (write-file (hatena-blog-writer-save-entry-file-name "contents"
-                                                             entry))))))
+        (insert (format "%s" (get-val entry 'content)))))))

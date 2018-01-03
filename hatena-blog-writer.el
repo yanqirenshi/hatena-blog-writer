@@ -21,7 +21,11 @@
 (load "./src/utility.el")
 (load "./src/filer.el")
 (load "./src/xml.el")
-(load "./src/api.el")
+;; /api
+(load "./src/api/uri.el")
+(load "./src/api/header.el")
+(load "./src/api/request.el")
+;;
 (load "./src/user.el")
 (load "./src/blog.el")
 (load "./src/entry.el")
