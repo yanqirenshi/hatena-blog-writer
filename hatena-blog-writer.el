@@ -5,19 +5,8 @@
 (require 'request)
 (require 's)
 
-(defvar *hatena-blog-writer-users*  nil
-  "はてなユーザー")
-;;  :group 'hatena-blog-writer
-
-(defvar *hatena-blog-writer-blogs*  nil
-  "はてなユーザーのブログリスト")
-
-(defvar *hatena-blog-writer-current-user*  nil
-  "選択されているはてなユーザー")
-
-(defvar *hatena-blog-writer-current-blog*  nil
-  "選択されているはてなユーザーのブログ")
-
+(load "./src/mode.el")
+(load "./src/variables.el")
 (load "./src/utility.el")
 (load "./src/filer.el")
 (load "./src/xml.el")
