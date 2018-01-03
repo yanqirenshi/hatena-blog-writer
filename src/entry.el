@@ -54,10 +54,11 @@
 
 (defun hatena-blog-writer-api-entry-get-success (&rest response)
   "hatena-blog-writer-api-entry-get のコールバック(success) 関数"
+  (setq *tmp* response)
   (let ((entry (car (plist-get response :data))))
     (when (eq 'entry (car entry))
-      (hatena-blog-writer-save-entry-master2 entry)
-      (hatena-blog-writer-save-entry-contents2 entry))))
+      (hatena-blog-writer-save-entry-master entry)
+      (hatena-blog-writer-save-entry-contents entry))))
 
 (defun hatena-blog-writer-api-entry-get (user blog entry-id)
   (let ((success #'hatena-blog-writer-api-entry-get-success))
@@ -88,8 +89,8 @@
   (let ((data (car (plist-get response :data))))
     (dolist (element (car (xml-node-children data)))
       (when (eq 'entry (car element))
-        (hatena-blog-writer-save-entry-master2 element)
-        (hatena-blog-writer-save-entry-contents2 element)))))
+        (hatena-blog-writer-save-entry-master element)
+        (hatena-blog-writer-save-entry-contents element)))))
 
 (defun hatena-blog-writer-api-entry-find (user blog)
   (let ((success #'hatena-blog-writer-api-entry-find-success))

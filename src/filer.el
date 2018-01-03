@@ -72,6 +72,9 @@
       (insert-file-contents filename)
       (setq *hatena-blog-writer-blogs* (read (buffer-string))))))
 
+;;;
+;;; save entry
+;;;
 (defun hatena-blog-writer-save-entry-file-name (type entry)
   (multiple-value-bind (user-id blog-id entry-id)
       (hatena-blog-writer-api-entry-get-parse-uri2 entry)
@@ -86,16 +89,7 @@
 ;;;
 ;;; save entry master
 ;;;
-(defun hatena-blog-writer-save-entry-master (user-id blog-id entry-id entry)
-  (let ((filename (format "~/.hatena/blog/%s/%s/%s/master.el"
-                          user-id
-                          blog-id
-                          entry-id)))
-    (with-temp-buffer
-      (insert (format "%S" entry))
-      (write-file filename))))
-
-(defun hatena-blog-writer-save-entry-master2 (entry)
+(defun hatena-blog-writer-save-entry-master (entry)
   (multiple-value-bind (user-id blog-id entry-id)
       (hatena-blog-writer-api-entry-get-parse-uri2 entry)
     (with-temp-buffer
@@ -105,22 +99,14 @@
 ;;;
 ;;; save entry contents
 ;;;
-(defun hatena-blog-writer-save-entry-contents (user-id blog-id entry-id title contents)
-  (let ((filename (format "~/.hatena/blog/%s/%s/%s/contents.md"
-                          user-id
-                          blog-id
-                          entry-id)))
-    (with-temp-buffer
-      (insert (format "%s\n" title))
-      (insert (format "%s" contents))
-      (write-file filename))))
-
-(defun hatena-blog-writer-save-entry-contents2 (entry)
+(defun hatena-blog-writer-save-entry-contents (entry)
   (multiple-value-bind (user-id blog-id entry-id)
       (hatena-blog-writer-api-entry-get-parse-uri2 entry)
     (flet ((get-val (entry key)
                     (let ((elements (car (xml-node-children entry))))
                       (caar (xml-node-children (assoc key elements))))))
-      (with-temp-file (hatena-blog-writer-save-entry-file-name "contents" entry)
+      (with-temp-buffer
+        (setq save-buffer-coding-system 'utf-8-unix)
         (insert (format "%s\n" (get-val entry 'title)))
-        (insert (format "%s" (get-val entry 'content)))))))
+        (insert (format "%s" (get-val entry 'content)))
+        (write-file (hatena-blog-writer-save-entry-file-name "contents" entry))))))
