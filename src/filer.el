@@ -75,16 +75,22 @@
 ;;;
 ;;; save entry
 ;;;
+(defun hatena-blog-writer-save-entry-file-name-at-id (type user-id blog-id entry-id)
+  (format "~/.hatena/blog/%s/%s/%s/%s"
+          user-id
+          blog-id
+          entry-id
+          (cond ((string= "master" type) "master.el")
+                ((string= "contents" type) "contents.md")
+                (t error "Funck'n error! bad type. type=%s" type))))
+
 (defun hatena-blog-writer-save-entry-file-name (type entry)
   (multiple-value-bind (user-id blog-id entry-id)
       (hatena-blog-writer-api-entry-get-parse-uri2 entry)
-    (format "~/.hatena/blog/%s/%s/%s/%s"
-            user-id
-            blog-id
-            entry-id
-            (cond ((string= "master" type) "master.el")
-                  ((string= "contents" type) "contents.md")
-                  (t error "Funck'n error! bad type. type=%s" type)))))
+    (hatena-blog-writer-save-entry-file-name-at-id type
+                                                   user-id
+                                                   blog-id
+                                                   entry-id)))
 
 ;;;
 ;;; save entry master
@@ -110,3 +116,18 @@
         (insert (format "%s\n" (get-val entry 'title)))
         (insert (format "%s" (get-val entry 'content)))
         (write-file (hatena-blog-writer-save-entry-file-name "contents" entry))))))
+
+(defun hatena-blog-writer-load-entry-contents (user blog entry-id)
+  (let ((filename (hatena-blog-writer-save-entry-file-name-at-id "contents"
+                                                                 (plist-get user :id)
+                                                                 (plist-get blog :id)
+                                                                 entry-id)))
+    (with-temp-buffer
+      (insert-file-contents filename)
+      (goto-char (point-min))
+      (let ((str (buffer-string)))
+        (if (string-match "^\\(.*\\)\n\\(\\(.\\|\n\\)+\\)$" str)
+            (list :title (match-string 1 str)
+                  :contents (match-string 2 str))
+            (list :title "No Title"
+                  :contents ""))))))
