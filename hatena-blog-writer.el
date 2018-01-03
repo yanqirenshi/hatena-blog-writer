@@ -25,10 +25,13 @@
 (load "./src/api/uri.el")
 (load "./src/api/header.el")
 (load "./src/api/request.el")
-;;
+;; user and blog
 (load "./src/user.el")
 (load "./src/blog.el")
-(load "./src/entry.el")
+;; entry
+(load "./src/entry/util.el")
+(load "./src/entry/api-entry-get.el")
+(load "./src/entry/api-entry-find.el")
 
 (hatena-blog-writer-load-users)
 (hatena-blog-writer-load-blogs)
