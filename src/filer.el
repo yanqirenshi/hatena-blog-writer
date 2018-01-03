@@ -97,7 +97,7 @@
 (defun hatena-blog-writer-save-entry-master2 (entry)
   (multiple-value-bind (user-id blog-id entry-id)
       (hatena-blog-writer-api-entry-get-parse-uri2 entry)
-  (with-temp-buffer
+    (with-temp-buffer
       (insert (format "%S" entry))
       (write-file (hatena-blog-writer-save-entry-file-name "master" entry)))))
 

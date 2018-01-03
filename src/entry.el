@@ -8,7 +8,7 @@
     (string= "entry"
              (getf d :class))))
 
-(defun hatena-blog-writer-entry-get-uri (elemnet)
+(defun hatena-blog-writer-entry-get-uri (element)
   "entry の uri を返します。"
   (cdr (assoc 'href
               (xml-node-attributes
@@ -30,34 +30,12 @@
               (match-string 2 uri)
               (match-string 3 uri)))))
 
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; hatena-blog-writer-api-entry-get
+;;; API-ENTRY-GET
 ;;;
-(defun hatena-blog-writer-api-entry-get-success (entry)
-  "hatena-blog-writer-api-entry-get のコールバック(success) 関数"
-  (flet ((get-val (key elements)
-                  (let ((element (assoc key elements)))
-                    (caar (xml-node-children element))))
-         (get-uri (element)
-                  (cdr (assoc 'href
-                              (xml-node-attributes
-                               (assoc 'link
-                                      (car (xml-node-children element))))))))
-    (let ((elements (car (xml-node-children entry)))
-          (ids (hatena-blog-writer-api-entry-get-parse-uri (get-uri entry))))
-      ;; 1. save master
-      (hatena-blog-writer-save-entry-master (plist-get ids :hatena-id)
-                                            (plist-get ids :hatena-blog-id)
-                                            (plist-get ids :hatena-blog-entry-id)
-                                            entry)
-      ;; 2. save contents
-      (hatena-blog-writer-save-entry-contents (plist-get ids :hatena-id)
-                                              (plist-get ids :hatena-blog-id)
-                                              (plist-get ids :hatena-blog-entry-id)
-                                              (get-val 'title   elements)
-                                              (get-val 'content elements)))))
-
-(defun hatena-blog-writer-api-entry-get (user blog entry-id)
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun %hatena-blog-writer-api-entry-get (user blog entry-id success)
   "entry を entry-id で取得する。"
   (assert (hatena-blog-writer-user-p user))
   (assert (hatena-blog-writer-blog-p blog))
@@ -71,15 +49,25 @@
                                 hatena-id
                                 hatena-blog-id
                                 hatena-blog-api-key
-                                (list :success (lambda (&rest response)
-                                                 (condition-case e
-                                                     (hatena-blog-writer-api-entry-get-success (car (plist-get response :data)))
-                                                   (error (print e)))))
+                                (list :success success)
                                 entry-id)))
 
+(defun hatena-blog-writer-api-entry-get-success (&rest response)
+  "hatena-blog-writer-api-entry-get のコールバック(success) 関数"
+  (let ((entry (car (plist-get response :data))))
+    (when (eq 'entry (car entry))
+      (hatena-blog-writer-save-entry-master2 entry)
+      (hatena-blog-writer-save-entry-contents2 entry))))
+
+(defun hatena-blog-writer-api-entry-get (user blog entry-id)
+  (let ((success #'hatena-blog-writer-api-entry-get-success))
+    (%hatena-blog-writer-api-entry-get user blog entry-id success)))
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; api-entry-find
+;;; API-ENTRY-FIND
 ;;;
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun %hatena-blog-writer-api-entry-find (user blog success)
   "entry を 複数取得する"
   (assert (hatena-blog-writer-user-p user))
