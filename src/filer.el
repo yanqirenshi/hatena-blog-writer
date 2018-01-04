@@ -52,9 +52,10 @@
 
 (defun hatena-blog-writer-load-users ()
   (let ((filename "~/.hatena/blog/config/users.lisp"))
-    (with-temp-buffer
-      (insert-file-contents filename)
-      (setq *hatena-blog-writer-users* (read (buffer-string))))))
+    (when (file-exists-p filename)
+      (with-temp-buffer
+        (insert-file-contents filename)
+        (setq *hatena-blog-writer-users* (read (buffer-string)))))))
 
 ;;;
 ;;; save blogs
@@ -68,9 +69,10 @@
 
 (defun hatena-blog-writer-load-blogs ()
   (let ((filename "~/.hatena/blog/config/blogs.lisp"))
-    (with-temp-buffer
-      (insert-file-contents filename)
-      (setq *hatena-blog-writer-blogs* (read (buffer-string))))))
+    (when (file-exists-p filename)
+      (with-temp-buffer
+        (insert-file-contents filename)
+        (setq *hatena-blog-writer-blogs* (read (buffer-string)))))))
 
 ;;;
 ;;; save entry
