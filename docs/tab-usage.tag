@@ -5,6 +5,8 @@
                 使い方
             </h1>
             <h2 class="subtitle"></h2>
+
+            <p>なに書こか。。。</p>
         </div>
     </section>
 </tab-usage>
