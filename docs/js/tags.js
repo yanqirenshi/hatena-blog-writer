@@ -15,9 +15,6 @@ riot.tag2('app', '<link-git-repository></link-git-repository> <app-header title=
      }.bind(this));
 });
 
-riot.tag2('command-list', '<table class="table is-bordered is-striped is-narrow is-hoverable"> <thead> <tr> <th>Command</th> <th>Description</th> </tr> </thead> <tbody> <tr each="{this.opts.commands}"> <td>{command}</td> <td>{description}</td> </tr> </tbody> </table>', '', '', function(opts) {
-});
-
 riot.tag2('app-footer', '<footer class="footer"> <div class="container"> <div class="content has-text-centered"> <p> <strong>hatena-blog-writer</strong> by <a href="https://github.com/yanqirenshi">yanqirenshi</a>. </p> <p> The source code is licensed <a href="https://opensource.org/licenses/GPL-3.0">GNU General Public License v3.0 </p> </div> </div> </footer>', '', '', function(opts) {
 });
 
@@ -30,6 +27,12 @@ riot.tag2('app-section', '<section class="section"> <div class="container"> <h1 
          if (l) return 'is-' + l;
          return 'is-3'
      }
+});
+
+riot.tag2('command-list', '<table class="table is-bordered is-striped is-narrow is-hoverable"> <thead> <tr> <th>Command</th> <th>Description</th> </tr> </thead> <tbody> <tr each="{this.opts.commands}"> <td>{command}</td> <td>{description}</td> </tr> </tbody> </table>', '', '', function(opts) {
+});
+
+riot.tag2('description', '<app-section title="Description" level="2"> <div class="content"> <p> はてなブログとローカルのディレクトリの同期を取ります。 </p> <p> 基本的にユーザーはローカルでブログを編集します。 そこで編集した情報をはてなブログへ push します。 </p> </div> </app-section>', '', '', function(opts) {
 });
 
 riot.tag2('link-git-repository', '<div style="position: fixed; top: 0; right: 0;"> <a href="https://github.com/yanqirenshi/hatena-blog-writer"> <svg width="80" height="80" viewbox="0 0 250 250" style="fill: #6550EC; color: #fff;"> <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path> <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"> </path> <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"> </path> </svg> </a> </div>', '', '', function(opts) {
@@ -59,13 +62,13 @@ riot.tag2('operators-list', '<table class="table is-bordered is-striped is-narro
      }.bind(this);
 });
 
-riot.tag2('description', '<app-section title="Description" level="2"> <div class="content"> <p> はてなブログとローカルのディレクトリの同期を取ります。 </p> <p> 基本的にユーザーはローカルでブログを編集します。 そこで編集した情報をはてなブログへ push します。 </p> </div> </app-section>', '', '', function(opts) {
-});
-
 riot.tag2('operators', '<section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <section class="section"> <div class="container"> <operators-list data="{this.opts.operators}" files="{this.opts.files}"></operators-list> </div> </section> </div> </section>', '', '', function(opts) {
 });
 
 riot.tag2('screen-image', '<pre>\noperators  | HATENA BLOG WRITE\n--------   | User: yanqirenshi\nLoad       | Blog: ほんとのこと知りたいだけなのに。\n - l       |\nRefresh    | Entries:\n - r       | state   id                   date       title\n - R (all) | ------ -------------------- ---------- -------------------------------------\nDiff       | public 10328749687211177806 yyyy-mm-dd Windows10 でインストールするもの 2017\n - d       | draft  10328749687213322003 yyyy-mm-dd Windows で出来ること。\nRemove     | public 8599973812294243134  yyyy-mm-dd Windows で trival-ssh が出来ない件\n - k       | public 8599973812306181606  yyyy-mm-dd 業務系システムの保守/運用 で仙人が誕生する理由\n           | public 8599973812306194999  yyyy-mm-dd 続:Windows で trival-ssh が出来ない件\n           | public 8599973812314613904  yyyy-mm-dd Niginx の config の場所(openSUSE Tumbleweed)\n           | public 8599973812331070463  yyyy-mm-dd Emacs Lisp のリスト操作オペレータの一覧\n           | public 8599973812331392703  yyyy-mm-dd Emacs Lisp 制御構造のオペレータ一覧\n           | public 8599973812331486790  yyyy-mm-dd Emacs Lisp のバッファ関連のオペレータ\n           | draft  8599973812332698050  yyyy-mm-dd Emacs Lisp の非ASCII文字関連のオペレータ\n           | [more...]\n    </pre>', '', '', function(opts) {
+});
+
+riot.tag2('variables', '<section class="section"> <div class="container"> <h1 class="title">Variables</h1> <h2 class="subtitle"></h2> <section class="section"> <div class="container"> <operators-list data="{this.opts.variables}" files="{this.opts.files}"></operators-list> </div> </section> </div> </section>', '', '', function(opts) {
 });
 
 riot.tag2('tab-data-structures', '<app-section title="Description"> <p> 三つのデータがあります。 </p> <table class="table is-bordered is-striped is-narrow is-hoverable"> <thead> <tr> <th>class</th> <th>description</th> </tr> </thead> <tbody> <tr> <td>user</td> <td>はてなユーザー</td> </tr> <tr> <td>blog</td> <td>ブログ</td> </tr> <tr> <td>entry</td> <td>ブログ・エントリー</td> </tr> </tbody> </table> </app-section> <app-section title="Lisp"> <app-section title="はてなユーザー"> <pre>(:id "..." :name "..." :class "user")</pre> </app-section> <app-section title="ブログ"> <pre>(:id "..." :name "..." :class "blog" :api-key)</pre> </app-section> <app-section title="ブログ・エントリー"> <pre>(:id "..." :title "..." :contents "..." :class "entry")</pre> </app-section> </app-section> <app-section title="Symbols" level="2" variables="{this.opts.variables}"> <variables variables="{this.opts.variables}" files="{[⁗hatena-blog-writer.el⁗]}"></variables> </app-section>', '', '', function(opts) {
@@ -85,7 +88,4 @@ riot.tag2('tab-symbols', '<app-section title="Description" level="2"> <div class
 });
 
 riot.tag2('tab-usage', '<section class="section"> <div class="container"> <h1 class="title"> 使い方 </h1> <h2 class="subtitle"></h2> <p>なに書こか。。。</p> </div> </section>', '', '', function(opts) {
-});
-
-riot.tag2('variables', '<section class="section"> <div class="container"> <h1 class="title">Variables</h1> <h2 class="subtitle"></h2> <section class="section"> <div class="container"> <operators-list data="{this.opts.variables}" files="{this.opts.files}"></operators-list> </div> </section> </div> </section>', '', '', function(opts) {
 });
