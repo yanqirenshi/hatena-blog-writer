@@ -1,12 +1,7 @@
 <tab-usage>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">
-                使い方
-            </h1>
-            <h2 class="subtitle"></h2>
-
+    <app-section title="Description" level="2">
+        <div class="content">
             <p>なに書こか。。。</p>
         </div>
-    </section>
+    </app-section>
 </tab-usage>

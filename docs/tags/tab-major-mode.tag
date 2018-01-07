@@ -1,5 +1,5 @@
 <tab-major-mode>
-    <app-section title="Description">
+    <app-section title="Description" level="2">
         <div class="contents">
             <p>
                 magit が便利すぎて、あんな感じの画面を作りたい。<bt/>
@@ -8,7 +8,7 @@
         </div>
     </app-section>
 
-    <app-section title="Image">
+    <app-section title="Image" level="2">
         <div class="contents">
             <p>
                 <screen-image></screen-image>

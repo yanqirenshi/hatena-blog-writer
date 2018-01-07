@@ -1,5 +1,5 @@
 <tab-data-structures>
-    <app-section title="Description">
+    <app-section title="Description" level="2">
 
         <p>
             三つのデータがあります。
@@ -26,7 +26,7 @@
 
     </app-section>
 
-    <app-section title="Lisp">
+    <app-section title="Lisp" level="2">
         <app-section title="はてなユーザー">
             <pre>(:id "..." :name "..." :class "user")</pre>
         </app-section>
@@ -40,11 +40,12 @@
         </app-section>
     </app-section>
 
-    <app-section title="Symbols" level="2" variables={this.opts.variables}>
+    <app-section title="Symbols" level="2"
+                 variables={this.opts.variables}>
         <variables variables={this.opts.variables}
                    files={["hatena-blog-writer.el"]}></variables>
     </app-section>
+
     <script>
-     console.log(this.opts);
     </script>
 </tab-data-structures>
