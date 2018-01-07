@@ -5,12 +5,17 @@
 (require 'request)
 (require 's)
 
-(load "./src/mode.el")
+(load "./src/mode/major-mode.el")
 (load "./src/variables.el")
 (load "./src/utility.el")
-(load "./src/filer.el")
-(load "./src/xml.el")
-;; /api
+;; filer
+(load "./src/filer/common.el")
+(load "./src/filer/users.el")
+(load "./src/filer/blogs.el")
+(load "./src/filer/entry-master.el")
+(load "./src/filer/entry-contents.el")
+;; api
+(load "./src/api/xml.el")
 (load "./src/api/uri.el")
 (load "./src/api/header.el")
 (load "./src/api/request.el")
