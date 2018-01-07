@@ -1,11 +1,13 @@
-riot.tag2('app-tabs', '<section class="section" style="padding-top: 8px;padding-bottom: 8px;"> <div class="container"> <div class="tabs is-boxed"> <ul> <li class="{this.isActive(\'readme\')}" style="margin-left: 22px;"> <a href="#readme"> <span>概要</span> </a> </li> <li class="{this.isActive(\'usage\')}"> <a href="#usage"> <span>使い方</span> </a> </li> <li class="{this.isActive(\'major-mode\')}"> <a href="#major-mode"> <span>メジャーモード</span> </a> </li> <li class="{this.isActive(\'data-structures\')}"> <a href="#data-structures"> <span>データ構成</span> </a> </li> <li class="{this.isActive(\'directory-structure\')}"> <a href="#directory-structure"> <span>ディレクトリ構成</span> </a> </li> <li class="{this.isActive(\'symbols\')}"> <a href="#symbols"> <span>シンボル</span> </a> </li> </ul> </div> </div> </section>', '', '', function(opts) {
-     this.isActive = function (name) {
-         return this.opts.active==name ? 'is-active' : '';
+riot.tag2('app-tab-item', '<li class="{this.isActive()}"> <a href="#{this.opts.code}"> <span>{this.opts.name}</span> </a> </li>', 'app-tab-item li { margin-left: 22px; }', '', function(opts) {
+     this.isActive = function () {
+         return this.opts.active==this.opts.code ? 'is-active' : '';
      };
-
 });
 
-riot.tag2('app', '<link-git-repository></link-git-repository> <app-header title="HATENA BLOG WRITER" subtitle="はてなブログを書くための emacs lisp です。"></app-header> <app-tabs click="{this.clickTab}" active="{STORE.get(\'contents\')}"></app-tabs> <tab-readme class="{this.display(\'readme\')}"></tab-readme> <tab-usage class="{this.display(\'usage\')}"></tab-usage> <tab-major-mode class="{this.display(\'major-mode\')}"></tab-major-mode> <tab-data-structures class="{this.display(\'data-structures\')}" variables="{STORE.get(\'variables\')}"></tab-data-structures> <tab-directory-structure class="{this.display(\'directory-structure\')}" operators="{STORE.get(\'operators\')}"></tab-directory-structure> <tab-symbols class="{this.display(\'symbols\')}" operators="{STORE.get(\'operators\')}" variables="{STORE.get(\'variables\')}"></tab-symbols> <app-footer></app-footer>', 'app .hide,[data-is="app"] .hide{ display: none; }', '', function(opts) {
+riot.tag2('app-tabs', '<section class="section" style="padding-top: 8px;padding-bottom: 8px;"> <div class="container"> <div class="tabs is-boxed"> <ul> <app-tab-item each="{STORE.state().tabs}" code="{code}" name="{name}" active="{STORE.state().contents}"></app-tab-item> </ul> </div> </div> </section>', '', '', function(opts) {
+});
+
+riot.tag2('app', '<link-git-repository></link-git-repository> <app-header title="HATENA BLOG WRITER" subtitle="はてなブログを書くための emacs lisp です。"></app-header> <app-tabs click="{this.clickTab}" active="{STORE.get(\'contents\')}"></app-tabs> <tab-readme class="{this.display(\'readme\')}"></tab-readme> <tab-usage class="{this.display(\'usage\')}"></tab-usage> <tab-major-mode class="{this.display(\'major-mode\')}"></tab-major-mode> <tab-minor-mode class="{this.display(\'minor-mode\')}"></tab-minor-mode> <tab-data-structures class="{this.display(\'data-structures\')}" variables="{STORE.get(\'variables\')}"></tab-data-structures> <tab-directory-structure class="{this.display(\'directory-structure\')}" operators="{STORE.get(\'operators\')}"></tab-directory-structure> <tab-symbols class="{this.display(\'symbols\')}" operators="{STORE.get(\'operators\')}" variables="{STORE.get(\'variables\')}"></tab-symbols> <app-footer></app-footer>', 'app .hide,[data-is="app"] .hide{ display: none; }', '', function(opts) {
      this.display = function (name) {
          return STORE.get('contents')==name ? 'show' : 'hide';
      };
@@ -79,6 +81,9 @@ riot.tag2('tab-directory-structure', '<app-section title="Description" level="2"
 });
 
 riot.tag2('tab-major-mode', '<app-section title="Description"> <div class="contents"> <p> magit が便利すぎて、あんな感じの画面を作りたい。<bt></bt> Emacs Lisp で画面(メニュー?)を作ったことがないが。。。 </p> </div> </app-section> <app-section title="Image"> <div class="contents"> <p> <screen-image></screen-image> </p> </div> </app-section> <app-section title="Commands" level="2"> <div class="contents"> <command-list commands="{STORE.state().commands}"></command-list> </div> </app-section>', '', '', function(opts) {
+});
+
+riot.tag2('tab-minor-mode', '<app-section title="Description"> <div class="contents"> <p> </p> </div> </app-section> <app-section title="Commands" level="2"> <div class="contents"> </div> </app-section>', '', '', function(opts) {
 });
 
 riot.tag2('tab-readme', '<description></description> <app-section title="Major mode" level="2"> <div class="content"> <p> <screen-image></screen-image> </p> </div> </app-section> <app-section title="Instration" level="2"> <div class="content"> <p> <pre>\n(add-to-list \'load-path "~/.emacs.d/dist/hatena-blog-writer/")\n(require \'hatena-blog-writer)\n                </pre> </p> </div> </app-section> <app-section title="Usage" level="2"> <div class="content"> <p>こんな感じにしたい。</p> <p> <pre>\n(hatena-blog-writer-add-user (hatena-blog-writer-add-user hatena-id user-name))\n(hatena-blog-writer-add-blog (hatena-blog-writer-add-blog blog-id blog-name api-token))\n(hatena-blog-writer-change-user hatena-id)\n(hatena-blog-writer-change-blog blog-id)\n                </pre> </p> </div> </app-section>', '', '', function(opts) {

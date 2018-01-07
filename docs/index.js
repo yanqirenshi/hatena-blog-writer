@@ -21,6 +21,15 @@ var STORE = new Simple_Redux_Store (REDUCER, {
     , operators: _OPERATORS
     , variables: _VARIABLES
     , commands: _COMMANDS
+    , tabs: [
+        {code:'readme', name: '概要'},
+        {code:'usage', name: '使い方'},
+        {code:'major-mode', name: 'メジャーモード'},
+        {code:'minor-mode', name: 'マイナーモード'},
+        {code:'data-structures', name: 'データ構成'},
+        {code:'directory-structure', name: 'ディレクトリ構成'},
+        {code:'symbols', name: 'シンボル一覧'}
+    ]
 });
 
 /// riot
