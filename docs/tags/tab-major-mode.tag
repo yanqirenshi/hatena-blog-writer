@@ -1,4 +1,4 @@
-<tab-gui>
+<tab-major-mode>
     <app-section title="Description">
         <div class="contents">
             <p>
@@ -16,16 +16,9 @@
         </div>
     </app-section>
 
-    <app-section title="Actions" level="2">
+    <app-section title="Commands" level="2">
         <div class="contents">
-            <app-section title="ブログ一覧を更新する" level="3">
-            </app-section>
-
-            <app-section title="ブログ・エントリを開く" level="3">
-            </app-section>
-
-            <app-section title="ブログ・エントリを Web にアップロードする" level="3">
-            </app-section>
+            <command-list commands={STORE.state().commands}></command-list>
         </div>
     </app-section>
-</tab-gui>
+</tab-major-mode>

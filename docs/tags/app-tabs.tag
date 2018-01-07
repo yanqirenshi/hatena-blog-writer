@@ -16,9 +16,9 @@
                         </a>
                     </li>
 
-                    <li class={this.isActive('gui')}>
-                        <a href="#gui">
-                            <span>GUI</span>
+                    <li class={this.isActive('major-mode')}>
+                        <a href="#major-mode">
+                            <span>メジャーモード</span>
                         </a>
                     </li>
 

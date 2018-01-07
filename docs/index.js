@@ -20,6 +20,7 @@ var STORE = new Simple_Redux_Store (REDUCER, {
     }())
     , operators: _OPERATORS
     , variables: _VARIABLES
+    , commands: _COMMANDS
 });
 
 /// riot

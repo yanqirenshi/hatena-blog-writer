@@ -12,7 +12,7 @@
 
     <tab-usage class="{this.display('usage')}"></tab-usage>
 
-    <tab-gui class="{this.display('gui')}"></tab-gui>
+    <tab-major-mode class="{this.display('major-mode')}"></tab-major-mode>
 
     <tab-data-structures class="{this.display('data-structures')}"
                          variables={STORE.get('variables')}></tab-data-structures>
