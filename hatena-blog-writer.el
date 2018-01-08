@@ -5,7 +5,6 @@
 (require 'request)
 (require 's)
 
-(load "./src/mode/major.el")
 (load "./src/variables.el")
 (load "./src/utility.el")
 ;; filer
@@ -27,6 +26,10 @@
 (load "./src/entry/api-entry-get.el")
 (load "./src/entry/api-entry-find.el")
 (load "./src/entry/api-entry-post.el")
+;; major mode
+(load "./src/mode/major-buffer-fields.el")
+(load "./src/mode/major-buffer.el")
+(load "./src/mode/major.el")
 
 (hatena-blog-writer-load-users)
 (hatena-blog-writer-load-blogs)
