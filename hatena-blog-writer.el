@@ -5,7 +5,7 @@
 (require 'request)
 (require 's)
 
-(load "./src/mode/major-mode.el")
+(load "./src/mode/major.el")
 (load "./src/variables.el")
 (load "./src/utility.el")
 ;; filer
