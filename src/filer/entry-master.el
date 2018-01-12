@@ -21,6 +21,7 @@
   (multiple-value-bind (user-id blog-id entry-id)
       (hatena-blog-writer-api-entry-get-parse-uri2 entry)
     (with-temp-buffer
+      (setq save-buffer-coding-system 'utf-8-unix)
       (insert (format "%S" entry))
       (write-file (hatena-blog-writer-save-entry-file-name "master" entry)))))
 
@@ -34,15 +35,15 @@
         (read (buffer-string))))))
 
 ;;;
-;;; hatena-blog-writer-load-all-entry-contents
+;;; hatena-blog-writer-load-all-entry-master
 ;;;
-(defun %hatena-blog-writer-load-all-entry-contents (user blog entries)
+(defun %hatena-blog-writer-load-all-entry-master (user blog entries)
   (when entries
     (cons (hatena-blog-writer-load-entry-master user blog (car entries))
-          (%hatena-blog-writer-load-all-entry-contents user blog (cdr entries)))))
+          (%hatena-blog-writer-load-all-entry-master user blog (cdr entries)))))
 
-(defun hatena-blog-writer-load-all-entry-contents (user blog)
+(defun hatena-blog-writer-load-all-entry-master (user blog)
   (let ((entries (hatena-blog-writer-find-entry-dirs user blog)))
-    (%hatena-blog-writer-load-all-entry-contents user
+    (%hatena-blog-writer-load-all-entry-master user
                                                  blog
                                                  entries)))

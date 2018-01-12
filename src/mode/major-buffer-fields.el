@@ -20,4 +20,11 @@
   (goto-line 5)
   (insert (format "Entries:"
                   (plist-get *hatena-blog-writer-current-blog* :name)
-                  (plist-get *hatena-blog-writer-current-blog* :id))))
+                  (plist-get *hatena-blog-writer-current-blog* :id)))
+  (goto-line 6)
+  (insert (format "%9s %20s %s\n" "status" "id" "title"))
+  (goto-line 7)
+  (insert (format "%9s %20s %s\n"
+                  (make-string 9 ?-)
+                  (make-string 20 ?-)
+                  (make-string 88 ?-))))

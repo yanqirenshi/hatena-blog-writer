@@ -19,7 +19,6 @@
 
 (defun hatena-blog-writer-api-entry-get-success (&rest response)
   "hatena-blog-writer-api-entry-get のコールバック(success) 関数"
-  (setq *tmp* response)
   (let ((entry (car (plist-get response :data))))
     (when (eq 'entry (car entry))
       (hatena-blog-writer-save-entry-master entry)
