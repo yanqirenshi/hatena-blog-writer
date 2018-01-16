@@ -1,8 +1,20 @@
 ;;; -*- coding: utf-8; lexical-binding: t -*-
 
+
+(defun hatena-blog-writer-build-master-find-tags (master)
+  (labels ((find-tags (childs)
+                      (when childs
+                        (if (eq 'category (xml-node-name (car childs)))
+                            (cons (cdr (assoc 'term (xml-node-attributes (car childs))))
+                                  (find-tags (cdr childs)))
+                          (find-tags (cdr childs))))))
+    (find-tags (car (xml-node-children master)))))
+
+
 (defun hatena-blog-writer-build-put-xml (user blog entry-id)
   (let* ((contents (hatena-blog-writer-load-entry-contents user blog entry-id))
-         (master (hatena-blog-writer-load-entry-master user blog entry-id)))
+         (master (hatena-blog-writer-load-entry-master user blog entry-id))
+         (tags (hatena-blog-writer-build-master-find-tags master)))
     (princ (format *hatena-blog-writer-post-xml-template*
                    ;; title
                    (xml-escape-string (plist-get contents :title))
