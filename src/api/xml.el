@@ -33,8 +33,15 @@
   <author><name>%s</name></author>
   <content type='text/plain'>%s</content>
   <updated>%s</updated>
-  <category term='%s' />
+  %s
   <app:control>
     <app:draft>%s</app:draft>
   </app:control>
 </entry>")
+
+(defun hatena-blog-writer-request-xml-build-tags (tags)
+  "定義場所はここじゃぁないよなぁ。。。。"
+  (if (not tags)
+      ""
+    (concat (format "<category term=\"%s\" />" (xml-escape-string (car tags)))
+            (hatena-blog-writer-request-xml-build-tags (cdr tags)))))

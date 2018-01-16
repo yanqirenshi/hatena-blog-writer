@@ -15,7 +15,7 @@
                  ;; updated
                  (format-time-string "%Y-%m-%dT%H:%M:%S")
                  ;; category
-                 (xml-escape-string categories)
+                 (hatena-blog-writer-request-xml-build-tags nil)
                  ;; draft
                  draft)))
 

@@ -18,10 +18,16 @@
                       (assoc 'app:control
                              (car (xml-node-children master)))))))))
 
+(defun hatena-blog-writer-build-put-build-tags-xml (tags)
+  "定義場所はここじゃぁないよなぁ。。。。"
+  (if (not tags)
+      ""
+    (concat (format "<category term=\"%s\" />" (xml-escape-string (car tags)))
+            (hatena-blog-writer-build-put-build-tags-xml (cdr tags)))))
+
 (defun hatena-blog-writer-build-put-xml (user blog entry-id)
-  (let* ((contents (hatena-blog-writer-load-entry-contents user blog entry-id))
-         (master (hatena-blog-writer-load-entry-master user blog entry-id))
-         (tags (hatena-blog-writer-build-master-find-tags master)))
+  (let ((contents (hatena-blog-writer-load-entry-contents user blog entry-id))
+        (master (hatena-blog-writer-load-entry-master user blog entry-id)))
     (princ (format *hatena-blog-writer-post-xml-template*
                    ;; title
                    (xml-escape-string (plist-get contents :title))
@@ -32,7 +38,8 @@
                    ;; updated
                    (format-time-string "%Y-%m-%dT%H:%M:%S")
                    ;; category
-                   (hatena-blog-writer-build-master-find-tags master)
+                   (hatena-blog-writer-request-xml-build-tags
+                    (hatena-blog-writer-build-master-find-tags master))
                    ;; draft
                    (hatena-blog-writer-build-master-get-draft master)))))
 
