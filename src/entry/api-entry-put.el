@@ -10,6 +10,13 @@
                           (find-tags (cdr childs))))))
     (find-tags (car (xml-node-children master)))))
 
+(defun hatena-blog-writer-build-master-get-draft (master)
+  "汚ないな、、、この関数、、、"
+  (caar (xml-node-children
+         (assoc 'app:draft
+                (car (xml-node-children
+                      (assoc 'app:control
+                             (car (xml-node-children master)))))))))
 
 (defun hatena-blog-writer-build-put-xml (user blog entry-id)
   (let* ((contents (hatena-blog-writer-load-entry-contents user blog entry-id))
@@ -25,9 +32,9 @@
                    ;; updated
                    (format-time-string "%Y-%m-%dT%H:%M:%S")
                    ;; category
-                   ""
+                   (hatena-blog-writer-build-master-find-tags master)
                    ;; draft
-                   "yes"))))
+                   (hatena-blog-writer-build-master-get-draft master)))))
 
 (defun hatena-blog-writer-put (user blog entry-id)
   ;; reload master
