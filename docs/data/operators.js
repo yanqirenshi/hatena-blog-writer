@@ -155,6 +155,177 @@ var _OPERATORS = [
         description: '',
         file: 'filer.el'
     }
+    /* ****************************************************************
+       entry/api-entry-find.el
+       **************************************************************** */
+    , {
+        symbol: '%hatena-blog-writer-api-entry-find',
+        type: 'function',
+        description: 'hatena-blog-writer-api-entry-find からコールされる関数です。',
+        file: 'entry/api-entry-find.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-api-entry-find-success',
+        type: 'function',
+        description: 'hatena-blog-writer-api-entry-find の success 関数',
+        file: 'entry/api-entry-find.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-api-entry-find',
+        type: 'function',
+        description: '複数の entry を取得します。get との違いは検索条件を指定できるところです。\n(今はできないけど)',
+        file: 'entry/api-entry-find.el'
+    }
+    /* ****************************************************************
+       entry/api-entry-get.el
+       **************************************************************** */
+    , {
+        symbol: '%hatena-blog-writer-api-entry-get',
+        type: 'function',
+        description: 'hatena-blog-writer-api-entry-get からコールされる関数です。',
+        file: 'entry/api-entry-get.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-api-entry-get-success',
+        type: 'function',
+        description: 'hatena-blog-writer-api-entry-get のコールバック(success) 関数',
+        file: 'entry/api-entry-get.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-api-entry-get',
+        type: 'entry-id のエントリを取得します。',
+        description: '',
+        file: 'entry/api-entry-get.el'
+    }
+    /* ****************************************************************
+       entry/api-entry-post.el
+       **************************************************************** */
+    , {
+        symbol: 'hatena-blog-writer-build-post-xml',
+        type: 'function',
+        description: '',
+        file: 'entry/api-entry-post.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-api-entry-post-success',
+        type: 'function',
+        description: '',
+        file: 'entry/api-entry-post.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-api-entry-post-error',
+        type: 'function',
+        description: '',
+        file: 'entry/api-entry-post.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-api-entry-post',
+        type: 'function',
+        description: '',
+        file: 'entry/api-entry-post.el'
+    }
+    /* ****************************************************************
+       entry/api-entry-put.el
+       **************************************************************** */
+    , {
+        symbol: 'hatena-blog-writer-build-master-find-tags',
+        type: 'function',
+        description: '',
+        file: 'entry/api-entry-put.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-build-master-get-draft',
+        type: 'function',
+        description: '',
+        file: 'entry/api-entry-put.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-build-put-build-tags-xml',
+        type: 'function',
+        description: '',
+        file: 'entry/api-entry-put.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-build-put-xml',
+        type: 'function',
+        description: '',
+        file: 'entry/api-entry-put.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-api-entry-put-success',
+        type: 'function',
+        description: '',
+        file: 'entry/api-entry-put.el'
+    }
+    , {
+        symbol: '%hatena-blog-writer-api-entry-put',
+        type: 'function',
+        description: '',
+        file: 'entry/api-entry-put.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-api-entry-put',
+        type: 'function',
+        description: '',
+        file: 'entry/api-entry-put.el'
+    }
+    /* ****************************************************************
+       entry/util.el
+       **************************************************************** */
+    , {
+        symbol: 'hatena-blog-writer-make-entry',
+        type: 'function',
+        description: '',
+        file: 'entry/util.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-entry-p',
+        type: 'function',
+        description: '',
+        file: 'entry/util.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-entry-get-val',
+        type: 'function',
+        description: 'entry の uri を返します。',
+        file: 'entry/util.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-entry-get-uri',
+        type: 'function',
+        description: 'entry の uri を返します。',
+        file: 'entry/util.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-entry-get-id',
+        type: 'function',
+        description: 'entry の id を返します。',
+        file: 'entry/util.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-entry-get-title',
+        type: 'function',
+        description: 'entry の title を返します。',
+        file: 'entry/util.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-entry-get-status',
+        type: 'function',
+        description: '',
+        file: 'entry/util.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-api-entry-get-parse-uri',
+        type: 'function',
+        description: '',
+        file: 'entry/util.el'
+    }
+    , {
+        symbol: 'hatena-blog-writer-api-entry-get-parse-uri2',
+        type: 'function',
+        description: '',
+        file: 'entry/util.el'
+    }
 ];
 /*
     , {

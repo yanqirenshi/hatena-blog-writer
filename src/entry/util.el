@@ -22,13 +22,13 @@
                       (car (xml-node-children element)))))))
 
 (defun hatena-blog-writer-entry-get-id (entry)
-  "entry の uri を返します。"
+  "entry の id を返します。"
   (multiple-value-bind (user-id blog-id entry-id)
       (hatena-blog-writer-api-entry-get-parse-uri2 entry)
     entry-id))
 
 (defun hatena-blog-writer-entry-get-title (entry)
-  "entry の uri を返します。"
+  "entry の title を返します。"
   (caar (xml-node-children
          (assoc 'title
                 (car (xml-node-children entry))))))

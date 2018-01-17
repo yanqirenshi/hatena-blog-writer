@@ -25,14 +25,12 @@
 　　│　　　　│　　├ published
 　　│　　　　│　　│　　├ \{entry-id\}
 　　│　　　　│　　│　　│　　├ master.lisp
-　　│　　　　│　　│　　│　　├ contents.md
-　　│　　　　│　　│　　│　　└ title.txt
+　　│　　　　│　　│　　│　　└ contents.md
 　　│　　　　│　　│
 　　│　　　　│　　├ draft
 　　│　　　　│　　│　　├ \{entry-id\}
 　　│　　　　│　　│　　│　　├ master.lisp
-　　│　　　　│　　│　　│　　├ contents.md
-　　│　　　　│　　│　　│　　└ title.txt
+　　│　　　　│　　│　　│　　└ contents.md
             </pre>
         </div>
 
@@ -69,23 +67,8 @@
                     アップロードは上書きです。
                 </p>
                 <p>
-                    master.lisp と差分を取ることが可能です。</br>
-                    Web へのアップロードは上書きしかないのでこの差分確認機能で事前に確認する必要があります。
-                </p>
-            </div>
-        </app-section>
-
-        <app-section title="title.txt" level="3">
-            <div class="content">
-                <p>
-                    ブログのタイトル。
-                </p>
-                <p>
-                    ブログのタイトルを変更する場合はこのファイルを更新します。
-                </p>
-                <p>
-                    「push (仮名)」ではこのファイルをWEB上にアップロードします。</br>
-                    複数行ある場合は全行を一行にしてアップロードします。
+                    このファイルの一行目はブログのタイトルになります。
+                    二行目以降をブログのコンテンツとして扱います。
                 </p>
                 <p>
                     master.lisp と差分を取ることが可能です。</br>
@@ -93,7 +76,6 @@
                 </p>
             </div>
         </app-section>
-
     </app-section>
 
     <app-section title="Symbols" level="2" operators={this.opts.operators}>
