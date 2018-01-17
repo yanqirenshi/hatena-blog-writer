@@ -1,6 +1,5 @@
 ;;; -*- coding: utf-8; lexical-binding: t -*-
 
-
 (defun hatena-blog-writer-build-master-find-tags (master)
   (labels ((find-tags (childs)
                       (when childs
@@ -28,7 +27,7 @@
 (defun hatena-blog-writer-build-put-xml (user blog entry-id)
   (let ((contents (hatena-blog-writer-load-entry-contents user blog entry-id))
         (master (hatena-blog-writer-load-entry-master user blog entry-id)))
-    (princ (format *hatena-blog-writer-post-xml-template*
+    (princ (format *hatena-blog-writer-request-xml-template*
                    ;; title
                    (xml-escape-string (plist-get contents :title))
                    ;; author
@@ -36,26 +35,41 @@
                    ;; content
                    (xml-escape-string (plist-get contents :contents))
                    ;; updated
-                   (format-time-string "%Y-%m-%dT%H:%M:%S")
+                   (format-time-string "%y-%m-%dt%h:%m:%s")
                    ;; category
                    (hatena-blog-writer-request-xml-build-tags
                     (hatena-blog-writer-build-master-find-tags master))
                    ;; draft
                    (hatena-blog-writer-build-master-get-draft master)))))
 
-(defun hatena-blog-writer-put (user blog entry-id)
-  ;; reload master
-  (hatena-blog-writer-api-entry-get user blog entry-id)
-  ;; put request
+(defun hatena-blog-writer-api-entry-put-success (&rest response)
+  (message "PUT Finished!!")
+  (let ((entry (car (plist-get response :data))))
+    (when (eq 'entry (car entry))
+      (hatena-blog-writer-save-entry-master entry)
+      (message "Saved master!")
+      (hatena-blog-writer-save-entry-contents entry)
+      (message "Saved contents!"))))
+
+(defun %hatena-blog-writer-api-entry-put (user blog entry-id)
   (request (hatena-blog-writer-api-entry-uri user blog entry-id)
            :type "PUT"
            :headers (hatena-blog-writer-request-headers user blog)
-           :data (encode-coding-string xml
-                                       (hatena-blog-writer-build-put-xml user blog entry-id)
+           :data (encode-coding-string (hatena-blog-writer-build-put-xml user blog entry-id)
                                        'utf-8)
-           :parser 'buffer-string
-           :success (function*
-                     (lambda (&key data &allow-other-keys)
-                       (message "I sent: %S" (assoc-default 'files data))))
+           :parser *hatena-blog-writer-request-default-callback-parser*
+           :success #'hatena-blog-writer-api-entry-put-success
            :error (lambda (&rest response)
-                    (message response))))
+                    (message "PUT Failed.\n%s" response))))
+
+(defun hatena-blog-writer-api-entry-put (user blog entry-id)
+  "contents.md の内容を WEB 上に PUT します。
+最新の master の title と contents のみを変更して put します。"
+  (lexical-let ((user user)
+                (blog blog)
+                (entry-id entry-id))
+    (let ((callback (lambda ()
+                      (%hatena-blog-writer-api-entry-put user blog entry-id))))
+      (hatena-blog-writer-api-entry-get user blog entry-id
+                                        :update :master
+                                        :callback callback))))

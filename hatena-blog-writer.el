@@ -26,6 +26,7 @@
 (load "./src/entry/api-entry-get.el")
 (load "./src/entry/api-entry-find.el")
 (load "./src/entry/api-entry-post.el")
+(load "./src/entry/api-entry-put.el")
 ;; major mode
 (load "./src/mode/major-buffer-fields.el")
 (load "./src/mode/major-buffer.el")

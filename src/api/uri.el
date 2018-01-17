@@ -19,10 +19,10 @@
 (defun hatena-blog-writer-api-entry-uri (id-or-user id-or-blog &optional entry_id)
   "はてなブログAtomPub の Entry の URI を返す"
   (%hatena-blog-writer-api-entry-uri (cond ((stringp id-or-user) id-or-user)
-                                           ((listp id-or-user) (plist-get id-or-user))
+                                           ((listp id-or-user) (plist-get id-or-user :id))
                                            (t (error "Fuck'n error! Valid id-or-user.")))
                                      (cond ((stringp id-or-blog) id-or-blog)
-                                           ((listp id-or-blog) (plist-get id-or-blog))
+                                           ((listp id-or-blog) (plist-get id-or-blog :id))
                                            (t (error "Fuck'n error! Valid id-or-blog.")))
                                      entry_id))
 
