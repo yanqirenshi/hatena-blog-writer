@@ -1,6 +1,6 @@
 <tab-usage>
     <app-section title="Initial setting" level="2">
-        <app-section title="Initial setting" level="3">
+        <app-section level="3">
             <div class="content">
                 <p>ユーザーを追加する。</p>
                 <pre>
@@ -9,7 +9,7 @@
             </div>
         </app-section>
 
-        <app-section title="Initial setting" level="3">
+        <app-section level="3">
             <div class="content">
                 <p>ブログをを追加する。</p>
                 <p>まだ手作業での追加になります。<br/>そのうちそのうち。</p>
@@ -21,7 +21,7 @@
             </div>
         </app-section>
 
-        <app-section title="Initial setting" level="3">
+        <app-section level="3">
             <div class="content">
                 <p>カレントユーザーを指定する</p>
                 <pre>
