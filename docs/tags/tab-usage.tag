@@ -32,6 +32,20 @@
         </app-section>
     </app-section>
 
+    <app-section title="初期設定が出来たら。" level="2">
+        <app-section title="とりあえずエントリの一括取得" level="3">
+            <p>
+                以下のコマンドで直近20件ほど取得できます。
+            </p>
+            <div class="content">
+                <pre>
+(hatena-blog-writer-api-entry-find *hatena-blog-writer-current-user*
+                                   *hatena-blog-writer-current-blog*)
+                </pre>
+            </div>
+        </app-section>
+    </app-section>
+
     <app-section title="Lisp operators" level="2">
         <app-section title="エントリの取得" level="3">
             <div class="content">
