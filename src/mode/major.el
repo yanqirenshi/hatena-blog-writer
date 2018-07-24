@@ -7,4 +7,7 @@
 (add-to-list 'auto-mode-alist '("\*hatena-blog: .*\*'" . hatena-blog-writer))
 
 (defun hatena-blog-writer-hook ()
-  (print "Enjoy write blog!"))
+  (let ((b (get-buffer-create "*hatena-blog: TEST*")))
+    (switch-to-buffer (buffer-name b))
+    (hatena-blog-writer-open-major-mode-buffer b)
+    (message "Enjoy write blog!")))
