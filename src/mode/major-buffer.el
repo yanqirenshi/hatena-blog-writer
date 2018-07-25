@@ -13,6 +13,13 @@
   (let ((buffer-name (hatena-blog-writer-ensure-major-mode-buffer-name)))
     (get-buffer-create buffer-name)))
 
+(defun hatena-blog-writer-open-major-mode-buffer-set-mejor-mode (buffer)
+  (with-current-buffer buffer
+    ;; setq major-mode は良いのか。。。。
+    (setq major-mode 'hatena-blog-writer-mode)
+    (setq mode-name "hbw-mode")
+    (run-hooks 'hatena-blog-writer-mode-hook)))
+
 (defun hatena-blog-writer-open-major-mode-buffer (buffer)
   "メジャーモードのバッファに切り替えます。"
   (with-current-buffer buffer
@@ -33,5 +40,6 @@
         (insert (format "%9s %20s %s\n"
                         (hatena-blog-writer-entry-get-status entry)
                         (hatena-blog-writer-entry-get-id entry)
-                        (hatena-blog-writer-entry-get-title entry)))))
-    (switch-to-buffer buffer)))
+                        (hatena-blog-writer-entry-get-title entry))))))
+  (hatena-blog-writer-open-major-mode-buffer-set-mejor-mode buffer)
+  (switch-to-buffer buffer))
