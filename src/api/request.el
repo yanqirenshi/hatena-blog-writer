@@ -51,9 +51,12 @@ funcsに コールバック関数 が存在しない場合はデフォルトの�
                                    hatena-blog-id
                                    hatena-blog-api-key
                                    funcs
-                                   &optional entry-id)
+                                   &optional
+                                   entry-id
+                                   next-page)
   "hatena-blog-writer の request ユーティリティ関数"
   (request uri
+           :params   (when next-page `(("next-page" . ,next-page)))
            :type     (hatena-blog-writer-request-method2type method)
            :headers  (hatena-blog-writer-request-headers hatena-id
                                                          hatena-blog-api-key)
