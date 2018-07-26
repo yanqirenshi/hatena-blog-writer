@@ -37,9 +37,6 @@
                     *hatena-blog-writer-current-user*
                     *hatena-blog-writer-current-blog*)))
       (dolist (entry entries)
-        (insert (format "%9s %20s %s\n"
-                        (hatena-blog-writer-entry-get-status entry)
-                        (hatena-blog-writer-entry-get-id entry)
-                        (hatena-blog-writer-entry-get-title entry))))))
+        (hatena-blog-writer-open-major-mode-print-entry-contents entry))))
   (hatena-blog-writer-open-major-mode-buffer-set-mejor-mode buffer)
   (switch-to-buffer buffer))

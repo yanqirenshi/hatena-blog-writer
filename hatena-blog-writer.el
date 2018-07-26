@@ -4,6 +4,7 @@
 (require 'url)
 (require 'request)
 (require 's)
+(require 'f)
 
 (load "./src/variables.el")
 (load "./src/utility.el")

@@ -53,6 +53,16 @@ Server                      : Local
                             :
 ```
 
+## Dependencies
+
+| package | Description |
+|---------|-------------|
+| xml     |             |
+| url     |             |
+| request |             |
+| s       |             |
+| f       |             |
+
 ## Documents
 
 [ドキュメント](https://yanqirenshi.github.io/hatena-blog-writer/) 参照
