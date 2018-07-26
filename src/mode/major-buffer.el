@@ -10,8 +10,11 @@
   "メジャーモードのバッファを返します。"
   (unless *hatena-blog-writer-current-user*
     (error "Not choiced user"))
-  (let ((buffer-name (hatena-blog-writer-ensure-major-mode-buffer-name)))
-    (get-buffer-create buffer-name)))
+  (let* ((buffer-name (hatena-blog-writer-ensure-major-mode-buffer-name))
+         (b (get-buffer-create buffer-name)))
+    (with-current-buffer b
+      (setq buffer-read-only t))
+    b))
 
 (defun hatena-blog-writer-open-major-mode-buffer-set-mejor-mode (buffer)
   (with-current-buffer buffer
