@@ -21,9 +21,9 @@
   (insert (format "Entries:"
                   (plist-get *hatena-blog-writer-current-blog* :name)
                   (plist-get *hatena-blog-writer-current-blog* :id)))
-  (goto-line 6)
-  (insert (format "  %9s %s\n" "status" "title"))
   (goto-line 7)
+  (insert (format "  %9s %s\n" "status" "title"))
+  (goto-line 8)
   (insert (format "  %9s %s\n"
                   (make-string 9 ?-)
                   (make-string 88 ?-))))
@@ -34,3 +34,8 @@
                   ;; (hatena-blog-writer-entry-get-id entry)
                   (decode-coding-string (hatena-blog-writer-entry-get-title entry)
                                         'utf-8))))
+
+(defun hatena-blog-writer-open-major-mode-print-entries-contents (entries)
+    (goto-line 9)
+    (dolist (entry entries)
+      (hatena-blog-writer-open-major-mode-print-entry-contents entry)))

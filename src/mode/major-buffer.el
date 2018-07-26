@@ -26,6 +26,7 @@
 (defun hatena-blog-writer-open-major-mode-buffer (buffer)
   "メジャーモードのバッファに切り替えます。"
   (with-current-buffer buffer
+    (setq buffer-read-only nil)
     (overwrite-mode)
     ;; cleaning buffer
     (erase-buffer)
@@ -35,11 +36,10 @@
     (hatena-blog-writer-open-major-mode-print-user)
     (hatena-blog-writer-open-major-mode-print-blog)
     (hatena-blog-writer-open-major-mode-print-entries-title)
-    (goto-line 8)
     (let ((entries (hatena-blog-writer-load-all-entry-master
                     *hatena-blog-writer-current-user*
                     *hatena-blog-writer-current-blog*)))
-      (dolist (entry entries)
-        (hatena-blog-writer-open-major-mode-print-entry-contents entry))))
+      (hatena-blog-writer-open-major-mode-print-entries-contents entries))
+    (setq buffer-read-only t))
   (hatena-blog-writer-open-major-mode-buffer-set-mejor-mode buffer)
   (switch-to-buffer buffer))
