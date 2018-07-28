@@ -6,7 +6,7 @@
 (defun hatena-blog-writer-user-p (d)
   (when (listp d)
     (string= "user"
-             (getf d :class))))
+             (plist-get d :class))))
 
 (defun hatena-blog-writer-get-user (user-id)
   (hatena-blog-writer-get-data-at-id user-id

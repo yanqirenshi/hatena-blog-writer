@@ -46,9 +46,9 @@
   (message "PUT Finished!!")
   (let ((entry (car (plist-get response :data))))
     (when (eq 'entry (car entry))
-      (hatena-blog-writer-save-entry-master entry)
+      (hatena-blog-writer.entry.save.master entry)
       (message "Saved master!")
-      (hatena-blog-writer-save-entry-contents entry)
+      (hatena-blog-writer.entry.save.contents entry)
       (message "Saved contents!"))))
 
 (defun %hatena-blog-writer-api-entry-put (user blog entry-id)

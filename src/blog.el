@@ -7,7 +7,7 @@
 (defun hatena-blog-writer-blog-p (d)
   (when (listp d)
     (string= "blog"
-             (getf d :class))))
+             (plist-get d :class))))
 
 (defun %hatena-blog-writer-get-blog (blog-id blogs)
   (let* ((blog (car blogs))

@@ -22,9 +22,9 @@
   (let ((entry (car (plist-get response :data))))
     (when (eq 'entry (car entry))
       (when (or (eq update :all) (eq update :master))
-        (hatena-blog-writer-save-entry-master entry))
+        (hatena-blog-writer.entry.save.master entry))
       (when (or (eq update :all) (eq update :contents))
-        (hatena-blog-writer-save-entry-contents entry)))))
+        (hatena-blog-writer.entry.save.contents entry)))))
 
 (defun hatena-blog-writer-api-entry-get (user blog entry-id &rest key-params)
   (lexical-let ((update (plist-get key-params :update))

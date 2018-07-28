@@ -30,9 +30,8 @@
 
 (defun hatena-blog-writer-open-major-mode-print-entry-contents (entry)
   (insert (format "  %9s %s\n"
-                  (hatena-blog-writer-entry-get-status entry)
-                  ;; (hatena-blog-writer-entry-get-id entry)
-                  (decode-coding-string (hatena-blog-writer-entry-get-title entry)
+                  (hatena-blog-writer.entry.status entry)
+                  (decode-coding-string (hatena-blog-writer.entry.title entry)
                                         'utf-8))))
 
 (defun hatena-blog-writer-open-major-mode-print-entries-contents (entries)

@@ -22,8 +22,8 @@
 (defun hatena-blog-writer-api-entry-post-success (&rest response)
   (let ((entry (car (plist-get response :data))))
     (when (eq 'entry (car entry))
-      (hatena-blog-writer-save-entry-master entry)
-      (hatena-blog-writer-save-entry-contents entry))))
+      (hatena-blog-writer.entry.save.master   entry)
+      (hatena-blog-writer.entry.save.contents entry))))
 
 (defun hatena-blog-writer-api-entry-post-error (&rest response)
   (setq *tmp-post-error* response))

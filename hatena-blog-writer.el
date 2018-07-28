@@ -19,11 +19,14 @@
 (load "./src/api/uri.el")
 (load "./src/api/header.el")
 (load "./src/api/request.el")
+(load "./src/api/result.el")
+(load "./src/api/response.el")
 ;; user and blog
 (load "./src/user.el")
 (load "./src/blog.el")
 ;; entry
-(load "./src/entry/util.el")
+(load "./src/entry/entry.el")
+(load "./src/entry/entry.file.el")
 (load "./src/entry/api-entry-get.el")
 (load "./src/entry/api-entry-find.el")
 (load "./src/entry/api-entry-post.el")
