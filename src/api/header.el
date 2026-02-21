@@ -11,9 +11,10 @@
     ("Authorization" . ,(hatena-blog-writer-request-header-auth hatena-id hatena-blog-api-key))))
 
 (defun hatena-blog-writer-request-headers (id-or-user api-key-or-blog)
+  "リクエストヘッダを返す。引数は文字列または EIEIO オブジェクト。"
   (%hatena-blog-writer-request-headers (cond ((stringp id-or-user) id-or-user)
-                                             ((listp id-or-user) (plist-get id-or-user :id))
-                                             (t (error "Func'n error invalid id-or-user")))
+                                             ((hbw-user-p id-or-user) (hbw-user-id id-or-user))
+                                             (t (error "Invalid id-or-user: %s" id-or-user)))
                                        (cond ((stringp api-key-or-blog) api-key-or-blog)
-                                             ((listp api-key-or-blog) (plist-get api-key-or-blog :api-key))
-                                             (t (error "Func'n error invalid api-key-or-blog")))))
+                                             ((hbw-blog-p api-key-or-blog) (hbw-blog-api-key api-key-or-blog))
+                                             (t (error "Invalid api-key-or-blog: %s" api-key-or-blog)))))

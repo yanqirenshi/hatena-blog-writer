@@ -2,7 +2,7 @@
 
 (defun hatena-blog-writer-cleanup-xml-del-p (d)
   (and (stringp d)
-       (string= "" (string-trim d))))
+       (string= "" (s-trim d))))
 
 (defun hatena-blog-writer-cleanup-xml-element (element)
   (let ((children (xml-node-children element))

@@ -17,13 +17,13 @@
       (format "%s/%s" entry-uri entry_id))))
 
 (defun hatena-blog-writer-api-entry-uri (id-or-user id-or-blog &optional entry_id)
-  "はてなブログAtomPub の Entry の URI を返す"
+  "はてなブログAtomPub の Entry の URI を返す。引数は文字列または EIEIO オブジェクト。"
   (%hatena-blog-writer-api-entry-uri (cond ((stringp id-or-user) id-or-user)
-                                           ((listp id-or-user) (plist-get id-or-user :id))
-                                           (t (error "Fuck'n error! Valid id-or-user.")))
+                                           ((hbw-user-p id-or-user) (hbw-user-id id-or-user))
+                                           (t (error "Invalid id-or-user: %s" id-or-user)))
                                      (cond ((stringp id-or-blog) id-or-blog)
-                                           ((listp id-or-blog) (plist-get id-or-blog :id))
-                                           (t (error "Fuck'n error! Valid id-or-blog.")))
+                                           ((hbw-blog-p id-or-blog) (hbw-blog-id id-or-blog))
+                                           (t (error "Invalid id-or-blog: %s" id-or-blog)))
                                      entry_id))
 
 ;;;

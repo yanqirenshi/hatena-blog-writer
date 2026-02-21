@@ -1,55 +1,35 @@
 ;;; -*- coding: utf-8; lexical-binding: t -*-
 
-(defun hatena-blog-writer-build-master-find-tags (master)
-  (labels ((find-tags (childs)
-                      (when childs
-                        (if (eq 'category (xml-node-name (car childs)))
-                            (cons (cdr (assoc 'term (xml-node-attributes (car childs))))
-                                  (find-tags (cdr childs)))
-                          (find-tags (cdr childs))))))
-    (find-tags (car (xml-node-children master)))))
-
-(defun hatena-blog-writer-build-master-get-draft (master)
-  "汚ないな、、、この関数、、、"
-  (caar (xml-node-children
-         (assoc 'app:draft
-                (car (xml-node-children
-                      (assoc 'app:control
-                             (car (xml-node-children master)))))))))
-
-(defun hatena-blog-writer-build-put-build-tags-xml (tags)
-  "定義場所はここじゃぁないよなぁ。。。。"
-  (if (not tags)
-      ""
-    (concat (format "<category term=\"%s\" />" (xml-escape-string (car tags)))
-            (hatena-blog-writer-build-put-build-tags-xml (cdr tags)))))
-
 (defun hatena-blog-writer-build-put-xml (user blog entry-id)
+  "PUT 用の XML を構築する。
+contents.md からタイトルと本文を読み込み、master から既存メタデータを取得してマージする。"
   (let ((contents (hatena-blog-writer-load-entry-contents user blog entry-id))
         (master (hatena-blog-writer-load-entry-master user blog entry-id)))
     (princ (format *hatena-blog-writer-request-xml-template*
                    ;; title
                    (xml-escape-string (plist-get contents :title))
                    ;; author
-                   (plist-get user :id)
+                   (hbw-user-id user)
                    ;; content
                    (xml-escape-string (plist-get contents :contents))
                    ;; updated
-                   (format-time-string "%y-%m-%dt%h:%m:%s")
+                   (format-time-string "%Y-%m-%dT%H:%M:%S")
                    ;; category
                    (hatena-blog-writer-request-xml-build-tags
-                    (hatena-blog-writer-build-master-find-tags master))
+                    (hbw-entry-categories master))
                    ;; draft
-                   (hatena-blog-writer-build-master-get-draft master)))))
+                   (if (hbw-entry-draft-p master) "yes" "no")))))
 
 (defun hatena-blog-writer-api-entry-put-success (&rest response)
+  "PUT 成功時のコールバック"
   (message "PUT Finished!!")
-  (let ((entry (car (plist-get response :data))))
-    (when (eq 'entry (car entry))
-      (hatena-blog-writer.entry.save.master entry)
-      (message "Saved master!")
-      (hatena-blog-writer.entry.save.contents entry)
-      (message "Saved contents!"))))
+  (let ((xml-entry (car (plist-get response :data))))
+    (when (eq 'entry (car xml-entry))
+      (let ((entry (hbw-entry-from-xml xml-entry)))
+        (hatena-blog-writer.entry.save.master entry)
+        (message "Saved master!")
+        (hatena-blog-writer.entry.save.contents entry)
+        (message "Saved contents!")))))
 
 (defun %hatena-blog-writer-api-entry-put (user blog entry-id)
   (request (hatena-blog-writer-api-entry-uri user blog entry-id)
@@ -65,9 +45,9 @@
 (defun hatena-blog-writer-api-entry-put (user blog entry-id)
   "contents.md の内容を WEB 上に PUT します。
 最新の master の title と contents のみを変更して put します。"
-  (lexical-let ((user user)
-                (blog blog)
-                (entry-id entry-id))
+  (let ((user user)
+        (blog blog)
+        (entry-id entry-id))
     (let ((callback (lambda ()
                       (%hatena-blog-writer-api-entry-put user blog entry-id))))
       (hatena-blog-writer-api-entry-get user blog entry-id

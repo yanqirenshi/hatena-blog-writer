@@ -7,20 +7,18 @@
 (defun hatena-blog-writer-open-major-mode-print-user ()
   (goto-line 2)
   (insert (format "User: %s (%s)"
-                  (plist-get *hatena-blog-writer-current-user* :name)
-                  (plist-get *hatena-blog-writer-current-user* :id))))
+                  (hbw-user-name *hatena-blog-writer-current-user*)
+                  (hbw-user-id *hatena-blog-writer-current-user*))))
 
 (defun hatena-blog-writer-open-major-mode-print-blog ()
   (goto-line 3)
   (insert (format "Blog: %s (%s)"
-                  (plist-get *hatena-blog-writer-current-blog* :name)
-                  (plist-get *hatena-blog-writer-current-blog* :id))))
+                  (hbw-blog-name *hatena-blog-writer-current-blog*)
+                  (hbw-blog-id *hatena-blog-writer-current-blog*))))
 
 (defun hatena-blog-writer-open-major-mode-print-entries-title ()
   (goto-line 5)
-  (insert (format "Entries:"
-                  (plist-get *hatena-blog-writer-current-blog* :name)
-                  (plist-get *hatena-blog-writer-current-blog* :id)))
+  (insert "Entries:")
   (goto-line 7)
   (insert (format "  %9s %s\n" "status" "title"))
   (goto-line 8)
@@ -30,9 +28,8 @@
 
 (defun hatena-blog-writer-open-major-mode-print-entry-contents (entry)
   (insert (format "  %9s %s\n"
-                  (hatena-blog-writer.entry.status entry)
-                  (decode-coding-string (hatena-blog-writer.entry.title entry)
-                                        'utf-8))))
+                  (hbw-entry-status-string entry)
+                  (hbw-entry-title entry))))
 
 (defun hatena-blog-writer-open-major-mode-print-entries-contents (entries)
     (goto-line 9)

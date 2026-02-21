@@ -4,7 +4,7 @@
   (let ((user *hatena-blog-writer-current-user*))
     (when user
       (format "*hatena-blog: %s*"
-              (plist-get user :id)))))
+              (hbw-user-id user)))))
 
 (defun hatena-blog-writer-ensure-major-mode-buffer ()
   "メジャーモードのバッファを返します。"
@@ -18,7 +18,6 @@
 
 (defun hatena-blog-writer-open-major-mode-buffer-set-mejor-mode (buffer)
   (with-current-buffer buffer
-    ;; setq major-mode は良いのか。。。。
     (setq major-mode 'hatena-blog-writer-mode)
     (setq mode-name "hbw-mode")
     (run-hooks 'hatena-blog-writer-mode-hook)))

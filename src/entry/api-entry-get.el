@@ -2,11 +2,11 @@
 
 (defun %hatena-blog-writer-api-entry-get (user blog entry-id success)
   "entry を entry-id で取得する。"
-  (assert (hatena-blog-writer-user-p user))
-  (assert (hatena-blog-writer-blog-p blog))
-  (let ((hatena-id (plist-get user :id))
-        (hatena-blog-id (plist-get blog :id))
-        (hatena-blog-api-key (plist-get blog :api-key)))
+  (cl-assert (hbw-user-p user))
+  (cl-assert (hbw-blog-p blog))
+  (let ((hatena-id (hbw-user-id user))
+        (hatena-blog-id (hbw-blog-id blog))
+        (hatena-blog-api-key (hbw-blog-api-key blog)))
     (hatena-blog-writer-request :get
                                 (hatena-blog-writer-api-entry-uri hatena-id
                                                                   hatena-blog-id
@@ -19,16 +19,17 @@
 
 (defun hatena-blog-writer-api-entry-get-success (response update)
   "hatena-blog-writer-api-entry-get のコールバック(success) 関数"
-  (let ((entry (car (plist-get response :data))))
-    (when (eq 'entry (car entry))
-      (when (or (eq update :all) (eq update :master))
-        (hatena-blog-writer.entry.save.master entry))
-      (when (or (eq update :all) (eq update :contents))
-        (hatena-blog-writer.entry.save.contents entry)))))
+  (let ((xml-entry (car (plist-get response :data))))
+    (when (eq 'entry (car xml-entry))
+      (let ((entry (hbw-entry-from-xml xml-entry)))
+        (when (or (eq update :all) (eq update :master))
+          (hatena-blog-writer.entry.save.master entry))
+        (when (or (eq update :all) (eq update :contents))
+          (hatena-blog-writer.entry.save.contents entry))))))
 
 (defun hatena-blog-writer-api-entry-get (user blog entry-id &rest key-params)
-  (lexical-let ((update (plist-get key-params :update))
-                (callback (plist-get key-params :callback)))
+  (let ((update (plist-get key-params :update))
+        (callback (plist-get key-params :callback)))
     (%hatena-blog-writer-api-entry-get
      user blog entry-id
      (lambda (&rest response)

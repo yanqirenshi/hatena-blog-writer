@@ -33,7 +33,7 @@ funcsに コールバック関数 が存在しない場合はデフォルトの�
          (or (plist-get funcs :success)
              *hatena-blog-writer-request-default-callback-success*))
         ((eq type :error)
-         (or (plist-get funcs :errro)
+         (or (plist-get funcs :error)
              *hatena-blog-writer-request-default-callback-error*))
         ((eq type :complete)
          (or (plist-get funcs :complete)
@@ -43,6 +43,7 @@ funcsに コールバック関数 が存在しない場合はデフォルトの�
   "method (keyword) を request.el の type (string) に変換する"
   (cond ((eq method :get) "GET")
         ((eq method :post) "POST")
+        ((eq method :put) "PUT")
         (t (error "bad method %s" method))))
 
 (defun hatena-blog-writer-request (method
@@ -62,5 +63,5 @@ funcsに コールバック関数 が存在しない場合はデフォルトの�
                                                          hatena-blog-api-key)
            :parser   (hatena-blog-writer-request-get-func funcs :parser)
            :success  (hatena-blog-writer-request-get-func funcs :success)
-           :error    (hatena-blog-writer-request-get-func funcs :errro)
+           :error    (hatena-blog-writer-request-get-func funcs :error)
            :complete (hatena-blog-writer-request-get-func funcs :complete)))

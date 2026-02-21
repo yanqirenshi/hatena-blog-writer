@@ -1,11 +1,13 @@
 ;;; -*- coding: utf-8; lexical-binding: t -*-
 
+(require 'eieio)
 (require 'xml)
 (require 'url)
 (require 'request)
 (require 's)
 (require 'f)
 
+(load "./src/classes.el")
 (load "./src/variables.el")
 (load "./src/utility.el")
 ;; filer
@@ -25,6 +27,7 @@
 (load "./src/user.el")
 (load "./src/blog.el")
 ;; entry
+(load "./src/entry/entry-xml.el")
 (load "./src/entry/entry.el")
 (load "./src/entry/entry.file.el")
 (load "./src/entry/api-entry-get.el")
