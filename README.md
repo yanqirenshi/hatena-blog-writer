@@ -4,28 +4,35 @@
 
 [Hatena Blog API](http://developer.hatena.ne.jp/ja/documents/blog/apis/atom) をコールします。
 
-こんな感じのメジャーモードを作成します。
+`M-x hatena-blog-writer` でメジャーモードを起動します。
 
 ```
-operators  | HATENA BLOG WRITE
---------   | User: yanqirenshi
-Load       | Blog: ほんとのこと知りたいだけなのに。
- - l       |
-Refresh    | Entries:
- - r       | state   id                   date       title
- - R (all) | ------ -------------------- ---------- -------------------------------------
-Diff       | public 10328749687211177806 yyyy-mm-dd Windows10 でインストールするもの 2017
- - d       | draft  10328749687213322003 yyyy-mm-dd Windows で出来ること。
-Remove     | public 8599973812294243134  yyyy-mm-dd Windows で trival-ssh が出来ない件
- - k       | public 8599973812306181606  yyyy-mm-dd 業務系システムの保守/運用 で仙人が誕生する理由
-           | public 8599973812306194999  yyyy-mm-dd 続:Windows で trival-ssh が出来ない件
-           | public 8599973812314613904  yyyy-mm-dd Niginx の config の場所(openSUSE Tumbleweed)
-           | public 8599973812331070463  yyyy-mm-dd Emacs Lisp のリスト操作オペレータの一覧
-           | public 8599973812331392703  yyyy-mm-dd Emacs Lisp 制御構造のオペレータ一覧
-           | public 8599973812331486790  yyyy-mm-dd Emacs Lisp のバッファ関連のオペレータ
-           | draft  8599973812332698050  yyyy-mm-dd Emacs Lisp の非ASCII文字関連のオペレータ
-           | [more...]
+HATENA BLOG WRITER
+User: やんきれんし (yanqirenshi)
+Blog: ほんとのこと知りたいだけなのに。 (example.hatenablog.com)
+
+Entries:
+  status    date       title
+  --------- ---------- ----------------------------------------
+  published 2024-01-15 Windows10 でインストールするもの 2017
+  draft     2024-01-10 Windows で出来ること。
+  published 2024-01-08 Windows で trival-ssh が出来ない件
+  published 2024-01-05 業務系システムの保守/運用 で仙人が誕生する理由
+  ...
 ```
+
+### キーバインド
+
+| キー | コマンド | 説明 |
+|------|---------|------|
+| `l` | Load | API から全エントリーを取得 |
+| `r` | Refresh | ローカルデータでバッファを再描画 |
+| `R` | Refresh all | API から再取得して再描画 |
+| `d` | Diff | ローカルとサーバーの差分を表示 |
+| `k` | Remove | ローカルファイルを削除 |
+| `RET` | Open | contents.md を開く |
+| `q` | Quit | バッファを閉じる |
+| `?` | Help | キーバインド一覧を表示 |
 
 # Usage
 
@@ -65,4 +72,9 @@ Server                      : Local
 
 ## Documents
 
-[ドキュメント](https://yanqirenshi.github.io/hatena-blog-writer/) 参照
+| ドキュメント | 説明 |
+|-------------|------|
+| [API.md](./API.md) | API 関連の関数・変数・データフロー |
+| [CLASSES.md](./CLASSES.md) | EIEIO クラス定義（hbw-user, hbw-blog, hbw-entry） |
+| [OPERATORS.md](./OPERATORS.md) | 全関数の詳細リファレンス（HyperSpec スタイル） |
+| [VARIABLES.md](./VARIABLES.md) | グローバル変数・定数の一覧 |

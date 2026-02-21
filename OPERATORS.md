@@ -156,22 +156,38 @@ hatena-blog-writer で定義されている関数の一覧です。
 | `hatena-blog-writer-api-entry-put` | `src/entry/api-entry-put.el` | エントリーを更新 (PUT) |
 | `hatena-blog-writer-api-entry-put-success` | `src/entry/api-entry-put.el` | PUT 成功時コールバック |
 
-### メジャーモード
+### メジャーモード — エントリーポイント・バッファ管理
 
 | 関数 | 定義ファイル | 説明 |
 |------|-------------|------|
 | `hatena-blog-writer` | `src/mode/major.el` | メジャーモードを起動 [interactive] |
-| `hatena-blog-writer-mode-hook` | `src/mode/major.el` | モードフック |
+| `hbw--mode-setup` | `src/mode/major.el` | モード初期化時のセットアップ |
 | `hatena-blog-writer-ensure-major-mode-buffer-name` | `src/mode/major-buffer.el` | バッファ名を返す |
 | `hatena-blog-writer-ensure-major-mode-buffer` | `src/mode/major-buffer.el` | バッファを確保 |
-| `hatena-blog-writer-open-major-mode-buffer-set-mejor-mode` | `src/mode/major-buffer.el` | メジャーモードを設定 |
-| `hatena-blog-writer-open-major-mode-buffer` | `src/mode/major-buffer.el` | バッファを開いて描画 |
-| `hatena-blog-writer-open-major-mode-print-title` | `src/mode/major-buffer-fields.el` | タイトルを描画 |
-| `hatena-blog-writer-open-major-mode-print-user` | `src/mode/major-buffer-fields.el` | ユーザー情報を描画 |
-| `hatena-blog-writer-open-major-mode-print-blog` | `src/mode/major-buffer-fields.el` | ブログ情報を描画 |
-| `hatena-blog-writer-open-major-mode-print-entries-title` | `src/mode/major-buffer-fields.el` | エントリー一覧のヘッダを描画 |
-| `hatena-blog-writer-open-major-mode-print-entry-contents` | `src/mode/major-buffer-fields.el` | 1件のエントリーを描画 |
-| `hatena-blog-writer-open-major-mode-print-entries-contents` | `src/mode/major-buffer-fields.el` | エントリー一覧を描画 |
+| `hatena-blog-writer-render-buffer` | `src/mode/major-buffer.el` | バッファの内容を再描画 |
+
+### メジャーモード — 描画関数
+
+| 関数 | 定義ファイル | 説明 |
+|------|-------------|------|
+| `hbw--render-header` | `src/mode/major-buffer-fields.el` | ヘッダ部分を描画 |
+| `hbw--render-entry-line` | `src/mode/major-buffer-fields.el` | 1エントリー行を描画 |
+| `hbw--render-entry-list` | `src/mode/major-buffer-fields.el` | エントリー一覧を描画 |
+| `hbw--entry-at-point` | `src/mode/major-buffer-fields.el` | カーソル位置の hbw-entry を取得 |
+| `hbw--goto-first-entry` | `src/mode/major-buffer-fields.el` | カーソルを最初のエントリー行に移動 |
+
+### メジャーモード — コマンド
+
+| 関数 | 定義ファイル | 説明 |
+|------|-------------|------|
+| `hbw-command-load` | `src/mode/major-commands.el` | API から全エントリー取得 + 再描画 (l) [interactive] |
+| `hbw-command-refresh` | `src/mode/major-commands.el` | ローカルデータでバッファ再描画 (r) [interactive] |
+| `hbw-command-refresh-all` | `src/mode/major-commands.el` | API 再取得 + 再描画 (R) [interactive] |
+| `hbw-command-diff` | `src/mode/major-commands.el` | ローカルとサーバーの diff 表示 (d) [interactive] |
+| `hbw-command-remove` | `src/mode/major-commands.el` | ローカルファイル削除 (k) [interactive] |
+| `hbw-command-open` | `src/mode/major-commands.el` | contents.md を開く (RET) [interactive] |
+| `hbw-command-quit` | `src/mode/major-commands.el` | バッファを閉じる (q) [interactive] |
+| `hbw-command-help` | `src/mode/major-commands.el` | キーバインド一覧を表示 (?) [interactive] |
 
 ---
 
@@ -1822,9 +1838,9 @@ hatena-blog-writer-api-entry-put (user blog entry-id) => void
 
 ---
 
-## メジャーモード
+## メジャーモード — エントリーポイント・バッファ管理
 
-定義ファイル: `src/mode/major.el`, `src/mode/major-buffer.el`, `src/mode/major-buffer-fields.el`
+定義ファイル: `src/mode/major.el`, `src/mode/major-buffer.el`
 
 ### hatena-blog-writer
 
@@ -1836,25 +1852,33 @@ hatena-blog-writer () => void  [interactive]
 
 **Description:**
 
-hatena-blog-writer メジャーモードを起動する。バッファを作成してエントリー一覧を表示する。
+hatena-blog-writer メジャーモードを起動する。バッファを確保し、`hatena-blog-writer-render-buffer` で描画した後、`switch-to-buffer` で表示する。
 
 **Affected By:**
 
 `*hatena-blog-writer-current-user*`, `*hatena-blog-writer-current-blog*`
 
+**See Also:**
+
+`hatena-blog-writer-ensure-major-mode-buffer`, `hatena-blog-writer-render-buffer`
+
 ---
 
-### hatena-blog-writer-mode-hook
+### hbw--mode-setup
 
 **Syntax:**
 
 ```
-hatena-blog-writer-mode-hook () => void
+hbw--mode-setup () => void
 ```
 
 **Description:**
 
-メジャーモードのフック関数。`"Enjoy write blog!"` をメッセージ表示する。
+メジャーモード初期化時のセットアップ関数。`hatena-blog-writer-mode-hook` に登録される。`"Enjoy write blog!"` をメッセージ表示する。
+
+**Notes:**
+
+`add-hook` で `hatena-blog-writer-mode-hook` に登録して使用する。
 
 ---
 
@@ -1886,112 +1910,78 @@ hatena-blog-writer-ensure-major-mode-buffer () => buffer
 
 **Description:**
 
-メジャーモードのバッファを確保して返す。ユーザーが選択されていない場合はエラー。
+メジャーモードのバッファを確保して返す。存在しなければ `get-buffer-create` で作成する。ユーザーが選択されていない場合はエラー。
 
 **Exceptional Situations:**
 
-- `*hatena-blog-writer-current-user*` が nil の場合: `"Not choiced user"` エラー
+- `*hatena-blog-writer-current-user*` が nil の場合: `"ユーザーが選択されていません"` エラー
 
 ---
 
-### hatena-blog-writer-open-major-mode-buffer-set-mejor-mode
+### hatena-blog-writer-render-buffer
 
 **Syntax:**
 
 ```
-hatena-blog-writer-open-major-mode-buffer-set-mejor-mode (buffer) => void
+hatena-blog-writer-render-buffer (buffer) => void
 ```
+
+**Arguments and Values:**
+
+| 引数 | 型 | 説明 |
+|------|------|------|
+| `buffer` | buffer | 描画先バッファ |
 
 **Description:**
 
-バッファに `hatena-blog-writer-mode` メジャーモードを設定する。
-
----
-
-### hatena-blog-writer-open-major-mode-buffer
-
-**Syntax:**
-
-```
-hatena-blog-writer-open-major-mode-buffer (buffer) => void
-```
-
-**Description:**
-
-バッファをクリアし、タイトル・ユーザー・ブログ・エントリー一覧を描画してメジャーモードを設定する。
-
----
-
-### hatena-blog-writer-open-major-mode-print-title
-
-**Syntax:**
-
-```
-hatena-blog-writer-open-major-mode-print-title () => void
-```
-
-**Description:**
-
-バッファの1行目に `"HATENA BLOG WRITER"` を描画する。
-
----
-
-### hatena-blog-writer-open-major-mode-print-user
-
-**Syntax:**
-
-```
-hatena-blog-writer-open-major-mode-print-user () => void
-```
-
-**Description:**
-
-バッファの2行目にユーザー情報（表示名とID）を描画する。
+バッファの内容を再描画する。`inhibit-read-only` を一時的に `t` にし、`erase-buffer` でバッファをクリアした後、`hbw--render-header`、`hbw--render-entry-list`、`hbw--goto-first-entry` を順に呼び出す。最後に `hatena-blog-writer-mode` を設定する。
 
 **Affected By:**
 
-`*hatena-blog-writer-current-user*`
+`*hatena-blog-writer-current-user*`, `*hatena-blog-writer-current-blog*`
+
+**See Also:**
+
+`hbw--render-header`, `hbw--render-entry-list`, `hbw--goto-first-entry`
 
 ---
 
-### hatena-blog-writer-open-major-mode-print-blog
+## メジャーモード — 描画関数
+
+定義ファイル: `src/mode/major-buffer-fields.el`
+
+### hbw--render-header
 
 **Syntax:**
 
 ```
-hatena-blog-writer-open-major-mode-print-blog () => void
+hbw--render-header () => void
 ```
 
 **Description:**
 
-バッファの3行目にブログ情報（表示名とID）を描画する。
+ヘッダ部分を描画する。以下の内容を逐次 `insert` する:
+
+1. タイトル行: `"HATENA BLOG WRITER"`
+2. ユーザー行: `"User: {name} ({id})"`
+3. ブログ行: `"Blog: {name} ({id})"`
+4. 空行
+5. `"Entries:"` 行
+6. カラムヘッダ: status, date, title
+7. セパレータ行
 
 **Affected By:**
 
-`*hatena-blog-writer-current-blog*`
+`*hatena-blog-writer-current-user*`, `*hatena-blog-writer-current-blog*`
 
 ---
 
-### hatena-blog-writer-open-major-mode-print-entries-title
+### hbw--render-entry-line
 
 **Syntax:**
 
 ```
-hatena-blog-writer-open-major-mode-print-entries-title () => void
-```
-
-**Description:**
-
-エントリー一覧のヘッダ（`"Entries:"` と列見出し）を描画する。
-
----
-
-### hatena-blog-writer-open-major-mode-print-entry-contents
-
-**Syntax:**
-
-```
-hatena-blog-writer-open-major-mode-print-entry-contents (entry) => void
+hbw--render-entry-line (entry) => void
 ```
 
 **Arguments and Values:**
@@ -2002,24 +1992,260 @@ hatena-blog-writer-open-major-mode-print-entry-contents (entry) => void
 
 **Description:**
 
-1件のエントリーのステータスとタイトルを1行で描画する。
+1つのエントリー行を描画する。3列（status, date, title）をフォーマットして `insert` し、行全体に `'hbw-entry` text-property を付与する。date が nil の場合は `"----------"` を表示する。
+
+**Notes:**
+
+text-property `'hbw-entry` を付与することで、`hbw--entry-at-point` でカーソル位置のエントリーを取得できる。
+
+**See Also:**
+
+`hbw--entry-at-point`, `hbw-entry-status-string`, `hbw-entry-published-date`
 
 ---
 
-### hatena-blog-writer-open-major-mode-print-entries-contents
+### hbw--render-entry-list
 
 **Syntax:**
 
 ```
-hatena-blog-writer-open-major-mode-print-entries-contents (entries) => void
+hbw--render-entry-list () => void
 ```
-
-**Arguments and Values:**
-
-| 引数 | 型 | 説明 |
-|------|------|------|
-| `entries` | list | hbw-entry のリスト |
 
 **Description:**
 
-エントリー一覧の全エントリーを描画する。
+エントリー一覧を描画する。`hatena-blog-writer-load-all-entry-master` で全エントリーを読み込み、`published` の日付で降順ソートした後、`hbw--render-entry-line` で各エントリーを描画する。
+
+**Affected By:**
+
+`*hatena-blog-writer-current-user*`, `*hatena-blog-writer-current-blog*`
+
+**See Also:**
+
+`hatena-blog-writer-load-all-entry-master`, `hbw--render-entry-line`
+
+---
+
+### hbw--entry-at-point
+
+**Syntax:**
+
+```
+hbw--entry-at-point () => hbw-entry or nil
+```
+
+**Description:**
+
+カーソル位置（`point`）の `'hbw-entry` text-property を返す。エントリー行でなければ `nil` を返す。
+
+**Notes:**
+
+`hbw--render-entry-line` で付与された text-property を利用する。コマンド関数群（`hbw-command-open`, `hbw-command-diff`, `hbw-command-remove`）で使用する。
+
+---
+
+### hbw--goto-first-entry
+
+**Syntax:**
+
+```
+hbw--goto-first-entry () => void
+```
+
+**Description:**
+
+カーソルを最初のエントリー行に移動する。バッファ先頭から `hbw--header-line-count` 行分だけ `forward-line` する。
+
+**See Also:**
+
+`hbw--header-line-count`
+
+---
+
+## メジャーモード — コマンド
+
+定義ファイル: `src/mode/major-commands.el`
+
+### hbw-command-refresh
+
+**Syntax:**
+
+```
+hbw-command-refresh () => void  [interactive]
+```
+
+**Description:**
+
+ローカルデータからバッファを再描画する。`hatena-blog-writer-render-buffer` を呼び出し、`"再描画しました"` をメッセージ表示する。
+
+**Notes:**
+
+キーバインド: `r`
+
+**See Also:**
+
+`hatena-blog-writer-render-buffer`
+
+---
+
+### hbw-command-open
+
+**Syntax:**
+
+```
+hbw-command-open () => void  [interactive]
+```
+
+**Description:**
+
+カーソル行のエントリーの `contents.md` を `find-file` で開く。
+
+**Exceptional Situations:**
+
+- カーソルがエントリー行にない場合: `"エントリー行にカーソルを置いてください"` エラー
+- ファイルが存在しない場合: `"ファイルが存在しません: {path}"` エラー
+
+**Notes:**
+
+キーバインド: `RET`
+
+**See Also:**
+
+`hbw--entry-at-point`, `hbw-entry-file-path`
+
+---
+
+### hbw-command-quit
+
+**Syntax:**
+
+```
+hbw-command-quit () => void  [interactive]
+```
+
+**Description:**
+
+hatena-blog-writer バッファを閉じる。`quit-window` を呼び出す。
+
+**Notes:**
+
+キーバインド: `q`
+
+---
+
+### hbw-command-help
+
+**Syntax:**
+
+```
+hbw-command-help () => void  [interactive]
+```
+
+**Description:**
+
+キーバインド一覧をミニバッファに表示する。
+
+**Notes:**
+
+キーバインド: `?`
+
+---
+
+### hbw-command-load
+
+**Syntax:**
+
+```
+hbw-command-load () => void  [interactive]
+```
+
+**Description:**
+
+全エントリーを API から取得し、バッファを再描画する。`hatena-blog-writer.api.entry.find` を呼び出し、API は非同期のため `run-at-time` で3秒後に遅延再描画する。
+
+**Affected By:**
+
+`*hatena-blog-writer-current-user*`, `*hatena-blog-writer-current-blog*`
+
+**Notes:**
+
+キーバインド: `l`
+
+**See Also:**
+
+`hatena-blog-writer.api.entry.find`, `hatena-blog-writer-render-buffer`
+
+---
+
+### hbw-command-refresh-all
+
+**Syntax:**
+
+```
+hbw-command-refresh-all () => void  [interactive]
+```
+
+**Description:**
+
+全エントリーを API から再取得し、バッファを再描画する。内部的に `hbw-command-load` を呼び出す。
+
+**Notes:**
+
+キーバインド: `R`
+
+**See Also:**
+
+`hbw-command-load`
+
+---
+
+### hbw-command-diff
+
+**Syntax:**
+
+```
+hbw-command-diff () => void  [interactive]
+```
+
+**Description:**
+
+カーソル行のエントリーについて、ローカルの `contents.md` とサーバーの content を `ediff-buffers` で比較する。まず `hatena-blog-writer-api-entry-get` でサーバーから最新のエントリーを取得し、成功時にサーバーの content を一時バッファに展開して ediff を起動する。
+
+**Exceptional Situations:**
+
+- カーソルがエントリー行にない場合: `"エントリー行にカーソルを置いてください"` エラー
+- ローカルファイルが存在しない場合: `"ローカルファイルが存在しません: {path}"` エラー
+
+**Notes:**
+
+キーバインド: `d`
+
+**See Also:**
+
+`hbw--entry-at-point`, `hatena-blog-writer-api-entry-get`, `hatena-blog-writer-load-entry-master`
+
+---
+
+### hbw-command-remove
+
+**Syntax:**
+
+```
+hbw-command-remove () => void  [interactive]
+```
+
+**Description:**
+
+カーソル行のエントリーのローカルファイルを削除する。`yes-or-no-p` で確認後、`~/.hatena/blog/{user-id}/{blog-id}/{entry-id}` ディレクトリを `delete-directory` で再帰削除し、バッファを再描画する。サーバー上のエントリーは削除しない。
+
+**Exceptional Situations:**
+
+- カーソルがエントリー行にない場合: `"エントリー行にカーソルを置いてください"` エラー
+
+**Notes:**
+
+キーバインド: `k`
+
+**See Also:**
+
+`hbw--entry-at-point`, `hbw-command-refresh`

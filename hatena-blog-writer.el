@@ -37,6 +37,7 @@
 ;; major mode
 (load "./src/mode/major-buffer-fields.el")
 (load "./src/mode/major-buffer.el")
+(load "./src/mode/major-commands.el")
 (load "./src/mode/major.el")
 
 (hatena-blog-writer-load-users)

@@ -15,6 +15,7 @@ hatena-blog-writer で定義されているグローバル変数の一覧です�
 | `*hatena-blog-writer-request-default-callback-error*` | `src/api/request.el` | request.el 用デフォルトエラーコールバック |
 | `*hatena-blog-writer-request-default-callback-complete*` | `src/api/request.el` | request.el 用デフォルト完了コールバック |
 | `*hatena-blog-writer-request-xml-template*` | `src/api/xml.el` | POST/PUT 用 XML テンプレート |
+| `hbw--header-line-count` | `src/mode/major-buffer-fields.el` | ヘッダ部分の行数（定数） |
 
 ---
 
@@ -166,3 +167,20 @@ hatena-blog-writer で定義されているグローバル変数の一覧です�
 | 6 | 下書き状態 | `"yes"` or `"no"` |
 
 - **参照元**: `hatena-blog-writer-build-post-xml`, `hatena-blog-writer-build-put-xml`
+
+---
+
+## メジャーモード描画定数
+
+定義ファイル: `src/mode/major-buffer-fields.el`
+
+### hbw--header-line-count
+
+```elisp
+(defconst hbw--header-line-count 7)
+```
+
+- **型**: `integer`（定数）
+- **値**: `7`
+- **説明**: ヘッダ部分の行数。エントリー一覧はこの行の次から始まる。`hbw--goto-first-entry` でカーソルを最初のエントリー行に移動する際に使用する。
+- **参照元**: `hbw--goto-first-entry`

@@ -1,44 +1,37 @@
 ;;; -*- coding: utf-8; lexical-binding: t -*-
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; メジャーモードバッファの管理
+;;
+;; バッファの確保と再描画を担当する。
+;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun hatena-blog-writer-ensure-major-mode-buffer-name ()
+  "メジャーモードのバッファ名を返す"
   (let ((user *hatena-blog-writer-current-user*))
     (when user
       (format "*hatena-blog: %s*"
               (hbw-user-id user)))))
 
 (defun hatena-blog-writer-ensure-major-mode-buffer ()
-  "メジャーモードのバッファを返します。"
+  "メジャーモードのバッファを返す（なければ作成）"
   (unless *hatena-blog-writer-current-user*
-    (error "Not choiced user"))
-  (let* ((buffer-name (hatena-blog-writer-ensure-major-mode-buffer-name))
-         (b (get-buffer-create buffer-name)))
-    (with-current-buffer b
-      (setq buffer-read-only t))
-    b))
+    (error "ユーザーが選択されていません"))
+  (let ((buffer-name (hatena-blog-writer-ensure-major-mode-buffer-name)))
+    (get-buffer-create buffer-name)))
 
-(defun hatena-blog-writer-open-major-mode-buffer-set-mejor-mode (buffer)
+(defun hatena-blog-writer-render-buffer (buffer)
+  "バッファの内容を再描画する"
   (with-current-buffer buffer
-    (setq major-mode 'hatena-blog-writer-mode)
-    (setq mode-name "hbw-mode")
-    (run-hooks 'hatena-blog-writer-mode-hook)))
-
-(defun hatena-blog-writer-open-major-mode-buffer (buffer)
-  "メジャーモードのバッファに切り替えます。"
-  (with-current-buffer buffer
-    (setq buffer-read-only nil)
-    (overwrite-mode)
-    ;; cleaning buffer
-    (erase-buffer)
-    (insert (make-string 7 ?\n))
-    ;; print contents
-    (hatena-blog-writer-open-major-mode-print-title)
-    (hatena-blog-writer-open-major-mode-print-user)
-    (hatena-blog-writer-open-major-mode-print-blog)
-    (hatena-blog-writer-open-major-mode-print-entries-title)
-    (let ((entries (hatena-blog-writer-load-all-entry-master
-                    *hatena-blog-writer-current-user*
-                    *hatena-blog-writer-current-blog*)))
-      (hatena-blog-writer-open-major-mode-print-entries-contents entries))
-    (setq buffer-read-only t))
-  (hatena-blog-writer-open-major-mode-buffer-set-mejor-mode buffer)
-  (switch-to-buffer buffer))
+    (let ((inhibit-read-only t))
+      (erase-buffer)
+      ;; ヘッダ描画
+      (hbw--render-header)
+      ;; エントリー一覧描画
+      (hbw--render-entry-list)
+      ;; カーソルを最初のエントリー行に移動
+      (hbw--goto-first-entry))
+    ;; メジャーモード設定（キーマップ・hl-line-mode 有効化）
+    (hatena-blog-writer-mode)))
