@@ -34,6 +34,75 @@ Entries:
 | `q` | Quit | バッファを閉じる |
 | `?` | Help | キーバインド一覧を表示 |
 
+# Setup
+
+## インストール
+
+```elisp
+(add-to-list 'load-path "/path/to/hatena-blog-writer")
+(require 'hatena-blog-writer)
+```
+
+## ユーザーとブログの登録
+
+初回利用時にユーザーとブログを登録します。`M-x eval-expression` または init.el で以下を実行してください。
+
+```elisp
+;; 1. ユーザーを登録
+(hatena-blog-writer-add-user
+ (hatena-blog-writer-make-user "your-hatena-id" "表示名"))
+
+;; 2. ユーザーリストを永続化
+(hatena-blog-writer-save-users)
+
+;; 3. ブログを登録
+;;    api-key は はてなブログの [設定] > [詳細設定] > [AtomPub] > [APIキー] から取得
+(hatena-blog-writer-add-blog
+ (hatena-blog-writer-make-blog "example.hatenablog.com" "ブログ表示名" "your-api-key"))
+
+;; 4. ブログリストを永続化
+(hatena-blog-writer-save-blogs)
+```
+
+登録データは `~/.hatena/blog/config/` に保存されます。
+
+| ファイル | 内容 |
+|---------|------|
+| `~/.hatena/blog/config/users.lisp` | ユーザーリスト |
+| `~/.hatena/blog/config/blogs.lisp` | ブログリスト |
+
+## 利用中のユーザー・ブログの切り替え
+
+`hatena-blog-writer` を起動する前に、操作対象のユーザーとブログを選択する必要があります。
+
+```elisp
+;; ユーザーを選択
+(hatena-blog-writer-change-user "your-hatena-id")
+
+;; ブログを選択
+(hatena-blog-writer-change-blog "example.hatenablog.com")
+
+;; メジャーモードを起動
+(hatena-blog-writer)
+```
+
+init.el にまとめて記述する例:
+
+```elisp
+(require 'hatena-blog-writer)
+(hatena-blog-writer-change-user "your-hatena-id")
+(hatena-blog-writer-change-blog "example.hatenablog.com")
+```
+
+## データ保存先
+
+エントリーのデータは `~/.hatena/blog/{hatena-id}/{blog-id}/{entry-id}/` に保存されます。
+
+| ファイル | 内容 |
+|---------|------|
+| `master.el` | エントリーのメタデータ（タイトル、公開日時、カテゴリ等） |
+| `contents.md` | エントリーの本文 |
+
 # Usage
 
 使いかたは、以下二つの流れがあります。
