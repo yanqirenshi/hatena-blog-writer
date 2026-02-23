@@ -52,14 +52,16 @@
 ;;;;
 (defun hatena-blog-writer.entry.save.contents (entry)
   "hbw-entry オブジェクトの title と content を contents.md として保存する。
-引数が XML entry の場合は hbw-entry に変換してから保存する。"
+引数が XML entry の場合は hbw-entry に変換してから保存する。
+既にファイルが存在する場合はスキップする（ローカル編集を保護）。"
   (let ((obj (if (hbw-entry-p entry)
                  entry
                (hbw-entry-from-xml entry))))
     (let ((file (hbw-entry-file-path "contents" obj)))
-      (with-temp-buffer
-        (setq save-buffer-coding-system 'utf-8-unix)
-        (insert (format "%s\n" (hbw-entry-title obj)))
-        (insert (format "%s"   (hbw-entry-content obj)))
-        (write-file file)))
+      (unless (file-exists-p file)
+        (with-temp-buffer
+          (setq save-buffer-coding-system 'utf-8-unix)
+          (insert (format "%s\n" (hbw-entry-title obj)))
+          (insert (format "%s"   (hbw-entry-content obj)))
+          (write-file file))))
     obj))

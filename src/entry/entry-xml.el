@@ -13,7 +13,7 @@
   "CHILDREN 内の KEY 要素のテキストを返す"
   (let ((node (assoc key children)))
     (when node
-      (let ((text (caar (xml-node-children node))))
+      (let ((text (car (xml-node-children node))))
         (when (stringp text) text)))))
 
 (defun hbw--xml-find-link (children rel)
@@ -42,7 +42,7 @@
          (draft-node (when control
                        (assoc 'app:draft (xml-node-children control))))
          (val (when draft-node
-                (caar (xml-node-children draft-node)))))
+                (car (xml-node-children draft-node)))))
     (when (and val (stringp val))
       (string= "yes" val))))
 
@@ -58,7 +58,7 @@
 (defun hbw-entry-from-xml (xml-entry)
   "XML entry ノードから hbw-entry オブジェクトを生成する。
 XML-ENTRY は (entry ATTRS CHILDREN...) 形式の xml-node。"
-  (let* ((children (car (xml-node-children xml-entry)))
+  (let* ((children (xml-node-children xml-entry))
          ;; link 要素から URI を取得
          (edit-link (hbw--xml-find-link children "edit"))
          (alt-link  (hbw--xml-find-link children "alternate"))
@@ -72,7 +72,7 @@ XML-ENTRY は (entry ATTRS CHILDREN...) 形式の xml-node。"
          (edited        (hbw--xml-child-text children 'app:edited))
          (summary       (hbw--xml-child-text children 'summary))
          (content-node  (assoc 'content children))
-         (content       (or (caar (xml-node-children content-node)) ""))
+         (content       (or (car (xml-node-children content-node)) ""))
          (content-type  (or (cdr (assoc 'type (xml-node-attributes content-node)))
                             "text/plain"))
          (categories    (hbw--xml-categories children))

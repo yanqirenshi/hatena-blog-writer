@@ -33,7 +33,7 @@
               (%hatena-blog-writer.api.response.feed.entries (cdr children)))))))
 
 (defun hatena-blog-writer.api.response.feed.entries (feed)
-  (%hatena-blog-writer.api.response.feed.entries (car (cddr feed))))
+  (%hatena-blog-writer.api.response.feed.entries (cddr feed)))
 
 ;;;;;
 ;;;;; hatena-blog-writer.api.response.feeds-entries

@@ -13,9 +13,9 @@
                   child
                   (hatena-blog-writer-cleanup-xml-element child))
               new-children)))
-    (list (xml-node-name element)
-          (xml-node-attributes element)
-          (reverse new-children))))
+    (append (list (xml-node-name element)
+                  (xml-node-attributes element))
+            (reverse new-children))))
 
 (defun hatena-blog-writer-cleanup-xml (xml)
   (when xml

@@ -20,15 +20,19 @@
   (message "再描画しました"))
 
 (defun hbw-command-open ()
-  "カーソル行のエントリーの contents.md を開く (RET)"
+  "カーソル行のエントリーの contents.md を開く (RET)
+published の場合は read-only、draft の場合は編集可能で開く。"
   (interactive)
   (let ((entry (hbw--entry-at-point)))
     (unless entry
       (user-error "エントリー行にカーソルを置いてください"))
     (let ((file (hbw-entry-file-path "contents" entry)))
-      (if (file-exists-p file)
-          (find-file file)
-        (user-error "ファイルが存在しません: %s" file)))))
+      (unless (file-exists-p file)
+        (user-error "ファイルが存在しません: %s" file))
+      (find-file file)
+      (when (not (hbw-entry-draft-p entry))
+        (setq buffer-read-only t)
+        (message "[read-only] 公開済みエントリーです")))))
 
 (defun hbw-command-quit ()
   "hatena-blog-writer バッファを閉じる (q)"
@@ -46,19 +50,18 @@
 ;;
 
 (defun hbw-command-load ()
-  "全エントリーを API から取得し、バッファを再描画する (l)"
+  "全エントリーを API から全ページ取得し、完了後にバッファを再描画する (l)"
   (interactive)
   (message "エントリーを取得中...")
-  (hatena-blog-writer.api.entry.find
-   *hatena-blog-writer-current-user*
-   *hatena-blog-writer-current-blog*)
-  ;; API は非同期のため、タイマーで遅延再描画
   (let ((buf (current-buffer)))
-    (run-at-time 3 nil
-                 (lambda ()
-                   (when (buffer-live-p buf)
-                     (hatena-blog-writer-render-buffer buf)
-                     (message "エントリーを取得しました"))))))
+    (hatena-blog-writer.api.entry.find.all
+     *hatena-blog-writer-current-user*
+     *hatena-blog-writer-current-blog*
+     ;; 全ページ取得完了後のコールバック
+     (lambda ()
+       (when (buffer-live-p buf)
+         (hatena-blog-writer-render-buffer buf)
+         (message "全エントリーを取得しました"))))))
 
 (defun hbw-command-refresh-all ()
   "全エントリーを API から再取得し、バッファを再描画する (R)"
