@@ -59,7 +59,8 @@ Git 付属の diff.exe を自動設定する。"
       (if (file-exists-p git-diff)
           (setq ediff-diff-program git-diff)
         (user-error "diff コマンドが見つかりません。Git for Windows をインストールしてください"))))
-  (ediff-buffers buf-a buf-b))
+  (let ((ediff-split-window-function #'split-window-horizontally))
+    (ediff-buffers buf-a buf-b)))
 
 ;;
 ;; API 連携コマンド
