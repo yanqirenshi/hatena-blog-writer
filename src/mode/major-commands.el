@@ -46,6 +46,22 @@ published の場合は read-only、draft の場合は編集可能で開く。"
                    "d:Diff  p:Push  k:Remove  RET:Open  q:Quit  ?:Help")))
 
 ;;
+;; ediff ユーティリティ
+;;
+
+(defun hbw--ediff-buffers (buf-a buf-b)
+  "ediff-buffers を呼び出す。Windows で diff が見つからない場合は
+Git 付属の diff.exe を自動設定する。"
+  (require 'ediff)
+  (when (and (eq system-type 'windows-nt)
+             (not (executable-find ediff-diff-program)))
+    (let ((git-diff "C:/Program Files/Git/usr/bin/diff.exe"))
+      (if (file-exists-p git-diff)
+          (setq ediff-diff-program git-diff)
+        (user-error "diff コマンドが見つかりません。Git for Windows をインストールしてください"))))
+  (ediff-buffers buf-a buf-b))
+
+;;
 ;; API 連携コマンド
 ;;
 
@@ -94,7 +110,7 @@ published の場合は read-only、draft の場合は編集可能で開く。"
                  (insert (hbw-entry-title server-entry) "\n")
                  (insert (hbw-entry-content server-entry)))
                (let ((local-buf (find-file-noselect local-file)))
-                 (ediff-buffers local-buf server-buf))))))))))
+                 (hbw--ediff-buffers local-buf server-buf))))))))))
 
 (defun hbw-command-push ()
   "カーソル行のエントリーのローカル contents.md をサーバーにアップロードする (p)"

@@ -176,6 +176,12 @@ hatena-blog-writer で定義されている関数の一覧です。
 | `hbw--entry-at-point` | `src/mode/major-buffer-fields.el` | カーソル位置の hbw-entry を取得 |
 | `hbw--goto-first-entry` | `src/mode/major-buffer-fields.el` | カーソルを最初のエントリー行に移動 |
 
+### メジャーモード — ediff ユーティリティ
+
+| 関数 | 定義ファイル | 説明 |
+|------|-------------|------|
+| `hbw--ediff-buffers` | `src/mode/major-commands.el` | Windows 対応の ediff-buffers ラッパー |
+
 ### メジャーモード — コマンド
 
 | 関数 | 定義ファイル | 説明 |
@@ -2063,6 +2069,39 @@ hbw--goto-first-entry () => void
 
 ---
 
+## メジャーモード — ediff ユーティリティ
+
+定義ファイル: `src/mode/major-commands.el`
+
+### hbw--ediff-buffers
+
+**Syntax:**
+
+```
+hbw--ediff-buffers (buf-a buf-b) => void
+```
+
+**Arguments and Values:**
+
+| 引数 | 型 | 説明 |
+|------|------|------|
+| `buf-a` | buffer | 比較元バッファ |
+| `buf-b` | buffer | 比較先バッファ |
+
+**Description:**
+
+`ediff-buffers` のラッパー関数。Windows (`system-type` が `windows-nt`) で `diff` コマンドが見つからない場合、Git for Windows 付属の `C:/Program Files/Git/usr/bin/diff.exe` を `ediff-diff-program` に自動設定してから `ediff-buffers` を呼び出す。
+
+**Exceptional Situations:**
+
+- Windows で `diff` コマンドも Git 付属の `diff.exe` も見つからない場合: `"diff コマンドが見つかりません"` エラー
+
+**See Also:**
+
+`hbw-command-diff`
+
+---
+
 ## メジャーモード — コマンド
 
 定義ファイル: `src/mode/major-commands.el`
@@ -2223,7 +2262,7 @@ hbw-command-diff () => void  [interactive]
 
 **See Also:**
 
-`hbw--entry-at-point`, `hatena-blog-writer-api-entry-get`, `hatena-blog-writer-load-entry-master`
+`hbw--entry-at-point`, `hbw--ediff-buffers`, `hatena-blog-writer-api-entry-get`, `hatena-blog-writer-load-entry-master`
 
 ---
 
