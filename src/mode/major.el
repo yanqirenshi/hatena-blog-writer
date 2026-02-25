@@ -15,6 +15,7 @@
     (define-key map (kbd "r")   #'hbw-command-refresh)
     (define-key map (kbd "R")   #'hbw-command-refresh-all)
     (define-key map (kbd "d")   #'hbw-command-diff)
+    (define-key map (kbd "p")   #'hbw-command-push)
     (define-key map (kbd "k")   #'hbw-command-remove)
     (define-key map (kbd "RET") #'hbw-command-open)
     (define-key map (kbd "q")   #'hbw-command-quit)

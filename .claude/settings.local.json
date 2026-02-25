@@ -4,7 +4,11 @@
       "WebFetch(domain:www.gnu.org)",
       "WebFetch(domain:docs.github.com)",
       "WebFetch(domain:developer.hatena.ne.jp)",
-      "WebFetch(domain:help.hatenablog.com)"
+      "WebFetch(domain:help.hatenablog.com)",
+      "Skill(update-operators-md)",
+      "Skill(update-operators-md:*)",
+      "Skill(update-readme-md)",
+      "Skill(update-readme-md:*)"
     ]
   }
 }

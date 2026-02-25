@@ -43,7 +43,7 @@ published の場合は read-only、draft の場合は編集可能で開く。"
   "キーバインド一覧を表示する (?)"
   (interactive)
   (message (concat "l:Load  r:Refresh  R:Refresh-all  "
-                   "d:Diff  k:Remove  RET:Open  q:Quit  ?:Help")))
+                   "d:Diff  p:Push  k:Remove  RET:Open  q:Quit  ?:Help")))
 
 ;;
 ;; API 連携コマンド
@@ -95,6 +95,24 @@ published の場合は read-only、draft の場合は編集可能で開く。"
                  (insert (hbw-entry-content server-entry)))
                (let ((local-buf (find-file-noselect local-file)))
                  (ediff-buffers local-buf server-buf))))))))))
+
+(defun hbw-command-push ()
+  "カーソル行のエントリーのローカル contents.md をサーバーにアップロードする (p)"
+  (interactive)
+  (let ((entry (hbw--entry-at-point)))
+    (unless entry
+      (user-error "エントリー行にカーソルを置いてください"))
+    (let ((title (hbw-entry-title entry))
+          (entry-id (hbw-entry-id entry))
+          (user *hatena-blog-writer-current-user*)
+          (blog *hatena-blog-writer-current-blog*)
+          (buf (current-buffer)))
+      (unless (file-exists-p (hbw-entry-file-path "contents" entry))
+        (user-error "ローカルファイルが存在しません: %s"
+                    (hbw-entry-file-path "contents" entry)))
+      (when (yes-or-no-p (format "サーバーにアップロードしますか？: %s" title))
+        (message "アップロード中: %s ..." title)
+        (hatena-blog-writer-api-entry-put user blog entry-id)))))
 
 (defun hbw-command-remove ()
   "カーソル行のエントリーのローカルファイルを削除する (k)"

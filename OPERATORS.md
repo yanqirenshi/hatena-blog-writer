@@ -184,6 +184,7 @@ hatena-blog-writer で定義されている関数の一覧です。
 | `hbw-command-refresh` | `src/mode/major-commands.el` | ローカルデータでバッファ再描画 (r) [interactive] |
 | `hbw-command-refresh-all` | `src/mode/major-commands.el` | API 再取得 + 再描画 (R) [interactive] |
 | `hbw-command-diff` | `src/mode/major-commands.el` | ローカルとサーバーの diff 表示 (d) [interactive] |
+| `hbw-command-push` | `src/mode/major-commands.el` | ローカルの contents.md をサーバーにアップロード (p) [interactive] |
 | `hbw-command-remove` | `src/mode/major-commands.el` | ローカルファイル削除 (k) [interactive] |
 | `hbw-command-open` | `src/mode/major-commands.el` | contents.md を開く (RET) [interactive] |
 | `hbw-command-quit` | `src/mode/major-commands.el` | バッファを閉じる (q) [interactive] |
@@ -2040,7 +2041,7 @@ hbw--entry-at-point () => hbw-entry or nil
 
 **Notes:**
 
-`hbw--render-entry-line` で付与された text-property を利用する。コマンド関数群（`hbw-command-open`, `hbw-command-diff`, `hbw-command-remove`）で使用する。
+`hbw--render-entry-line` で付与された text-property を利用する。コマンド関数群（`hbw-command-open`, `hbw-command-diff`, `hbw-command-push`, `hbw-command-remove`）で使用する。
 
 ---
 
@@ -2223,6 +2224,37 @@ hbw-command-diff () => void  [interactive]
 **See Also:**
 
 `hbw--entry-at-point`, `hatena-blog-writer-api-entry-get`, `hatena-blog-writer-load-entry-master`
+
+---
+
+### hbw-command-push
+
+**Syntax:**
+
+```
+hbw-command-push () => void  [interactive]
+```
+
+**Description:**
+
+カーソル行のエントリーのローカル `contents.md` をサーバーにアップロードする。`yes-or-no-p` で確認後、`hatena-blog-writer-api-entry-put` を呼び出して PUT する。
+
+**Exceptional Situations:**
+
+- カーソルがエントリー行にない場合: `"エントリー行にカーソルを置いてください"` エラー
+- ローカルの contents.md が存在しない場合: `"ローカルファイルが存在しません: {path}"` エラー
+
+**Affected By:**
+
+`*hatena-blog-writer-current-user*`, `*hatena-blog-writer-current-blog*`
+
+**Notes:**
+
+キーバインド: `p`
+
+**See Also:**
+
+`hbw--entry-at-point`, `hatena-blog-writer-api-entry-put`
 
 ---
 

@@ -29,6 +29,7 @@ Entries:
 | `r` | Refresh | ローカルデータでバッファを再描画 |
 | `R` | Refresh all | API から再取得して再描画 |
 | `d` | Diff | ローカルとサーバーの差分を表示 |
+| `p` | Push | ローカルの contents.md をサーバーにアップロード |
 | `k` | Remove | ローカルファイルを削除 |
 | `RET` | Open | contents.md を開く |
 | `q` | Quit | バッファを閉じる |
