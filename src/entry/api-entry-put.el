@@ -31,25 +31,24 @@ contents.md からタイトルと本文を読み込み、master から既存メ�
         (hatena-blog-writer.entry.save.contents entry)
         (message "Saved contents!")))))
 
-(defun %hatena-blog-writer-api-entry-put (user blog entry-id)
+(defun %hatena-blog-writer-api-entry-put (user blog entry-id on-success)
   (request (hatena-blog-writer-api-entry-uri user blog entry-id)
            :type "PUT"
            :headers (hatena-blog-writer-request-headers user blog)
            :data (encode-coding-string (hatena-blog-writer-build-put-xml user blog entry-id)
                                        'utf-8)
            :parser *hatena-blog-writer-request-default-callback-parser*
-           :success #'hatena-blog-writer-api-entry-put-success
+           :success (lambda (&rest response)
+                      (apply #'hatena-blog-writer-api-entry-put-success response)
+                      (when on-success
+                        (funcall on-success)))
            :error (lambda (&rest response)
                     (message "PUT Failed.\n%s" response))))
 
-(defun hatena-blog-writer-api-entry-put (user blog entry-id)
-  "contents.md の内容を WEB 上に PUT します。
-最新の master の title と contents のみを変更して put します。"
-  (let ((user user)
-        (blog blog)
-        (entry-id entry-id))
-    (let ((callback (lambda ()
-                      (%hatena-blog-writer-api-entry-put user blog entry-id))))
-      (hatena-blog-writer-api-entry-get user blog entry-id
-                                        :update :master
-                                        :callback callback))))
+(defun hatena-blog-writer-api-entry-put (user blog entry-id &optional on-success)
+  "最新の master を元に contents.md を PUT し、成功後に ON-SUCCESS を呼ぶ。"
+  (hatena-blog-writer-api-entry-get
+   user blog entry-id
+   :update :master
+   :callback (lambda ()
+               (%hatena-blog-writer-api-entry-put user blog entry-id on-success))))

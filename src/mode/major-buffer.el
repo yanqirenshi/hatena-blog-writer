@@ -33,5 +33,6 @@
       (hbw--render-entry-list)
       ;; カーソルを最初のエントリー行に移動
       (hbw--goto-first-entry))
-    ;; メジャーモード設定（キーマップ・hl-line-mode 有効化）
-    (hatena-blog-writer-mode)))
+    ;; モードを初期化するとバッファローカルなフィルタがリセットされる。
+    (unless (eq major-mode 'hatena-blog-writer-mode)
+      (hatena-blog-writer-mode))))

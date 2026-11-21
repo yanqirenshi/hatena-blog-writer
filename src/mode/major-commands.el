@@ -111,7 +111,7 @@ Git 付属の diff.exe を自動設定する。"
   (hbw-command-load))
 
 (defun hbw-command-upload ()
-  "カーソル行の記事をはてなブログに保存する (U)。"
+  "カーソル行の記事をはてなブログに保存し、再取得して一覧を更新する (U)。"
   (interactive)
   (let ((entry (hbw--entry-at-point))
         (user *hatena-blog-writer-current-user*)
@@ -133,7 +133,21 @@ Git 付属の diff.exe を自動設定する。"
       (unless (file-regular-p file)
         (user-error "ファイルが存在しません: %s" file))
       (message "記事をはてなブログに保存中...")
-      (hatena-blog-writer-api-entry-put user blog (hbw-entry-id entry)))))
+      (let ((buffer (current-buffer))
+            (entry-id (hbw-entry-id entry)))
+        (hatena-blog-writer-api-entry-put
+         user blog entry-id
+         (lambda ()
+           (hatena-blog-writer-api-entry-get
+            user blog entry-id
+            :update :master
+            :callback
+            (lambda ()
+              (when (and (buffer-live-p buffer)
+                         (eq user *hatena-blog-writer-current-user*)
+                         (eq blog *hatena-blog-writer-current-blog*))
+                (hatena-blog-writer-render-buffer buffer))
+              (message "記事を保存し、最新情報を取得しました")))))))))
 
 (defun hbw-command-diff ()
   "カーソル行のエントリーのローカル contents.md とサーバーの content を比較する (d)"

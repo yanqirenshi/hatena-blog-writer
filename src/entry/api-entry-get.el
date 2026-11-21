@@ -25,7 +25,8 @@
         (when (or (eq update :all) (eq update :master))
           (hatena-blog-writer.entry.save.master entry))
         (when (or (eq update :all) (eq update :contents))
-          (hatena-blog-writer.entry.save.contents entry))))))
+          (hatena-blog-writer.entry.save.contents entry))
+        entry))))
 
 (defun hatena-blog-writer-api-entry-get (user blog entry-id &rest key-params)
   (let ((update (plist-get key-params :update))
@@ -33,6 +34,7 @@
     (%hatena-blog-writer-api-entry-get
      user blog entry-id
      (lambda (&rest response)
-       (hatena-blog-writer-api-entry-get-success response update)
-       (when (functionp callback)
-         (funcall callback))))))
+       (if (hatena-blog-writer-api-entry-get-success response update)
+           (when (functionp callback)
+             (funcall callback))
+         (message "記事情報を応答から取得できませんでした"))))))
