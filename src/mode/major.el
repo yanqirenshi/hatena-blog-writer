@@ -23,6 +23,9 @@
     map)
   "hatena-blog-writer-mode のキーマップ")
 
+(define-key hatena-blog-writer-mode-map (kbd "D") #'hbw-command-new-draft)
+(define-key hatena-blog-writer-mode-map (kbd "U") #'hbw-command-upload)
+
 ;;
 ;; メジャーモード定義
 ;;

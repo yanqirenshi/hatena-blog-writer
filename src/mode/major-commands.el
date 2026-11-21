@@ -34,6 +34,26 @@ published の場合は read-only、draft の場合は編集可能で開く。"
         (setq buffer-read-only t)
         (message "[read-only] 公開済みエントリーです")))))
 
+(defun hbw-command-new-draft ()
+  "はてなブログに下書きを作成し、記事一覧を更新する (D)。"
+  (interactive)
+  (let ((buffer (current-buffer))
+        (user *hatena-blog-writer-current-user*)
+        (blog *hatena-blog-writer-current-blog*))
+    (unless (and user blog)
+      (user-error "ユーザーとブログを選択してください"))
+    (message "下書きを作成中...")
+    (hatena-blog-writer-api-entry-post
+     user blog
+     (hatena-blog-writer-build-post-xml
+      user "新しい下書き" "ここに本文を書いてください。" nil "yes")
+     (lambda ()
+       (when (and (buffer-live-p buffer)
+                  (eq user *hatena-blog-writer-current-user*)
+                  (eq blog *hatena-blog-writer-current-blog*))
+         (hatena-blog-writer-render-buffer buffer))
+       (message "下書きを作成しました")))))
+
 (defun hbw-command-quit ()
   "hatena-blog-writer バッファを閉じる (q)"
   (interactive)
@@ -43,7 +63,7 @@ published の場合は read-only、draft の場合は編集可能で開く。"
   "キーバインド一覧を表示する (?)"
   (interactive)
   (message (concat "l:Load  r:Refresh  R:Refresh-all  "
-                   "d:Diff  p:Push  k:Remove  RET:Open  q:Quit  ?:Help")))
+                   "d:Diff  D:New draft  U:Upload  p:Push  k:Remove  RET:Open  q:Quit  ?:Help")))
 
 ;;
 ;; ediff ユーティリティ
@@ -89,6 +109,31 @@ Git 付属の diff.exe を自動設定する。"
   "全エントリーを API から再取得し、バッファを再描画する (R)"
   (interactive)
   (hbw-command-load))
+
+(defun hbw-command-upload ()
+  "カーソル行の記事をはてなブログに保存する (U)。"
+  (interactive)
+  (let ((entry (hbw--entry-at-point))
+        (user *hatena-blog-writer-current-user*)
+        (blog *hatena-blog-writer-current-blog*))
+    (unless entry
+      (user-error "エントリー行にカーソルを置いてください"))
+    (unless (and user blog
+                 (equal (hbw-user-id user) (hbw-entry-hatena-id entry))
+                 (equal (hbw-blog-id blog) (hbw-entry-blog-id entry)))
+      (user-error "記事一覧を開き直し、対象の記事を選んでください"))
+    (let* ((file (hbw-entry-file-path "contents" entry))
+           (contents-buffer (find-buffer-visiting file)))
+      (when contents-buffer
+        (with-current-buffer contents-buffer
+          (when (buffer-modified-p)
+            (save-buffer))
+          (when (buffer-modified-p)
+            (user-error "本文ファイルを保存できませんでした"))))
+      (unless (file-regular-p file)
+        (user-error "ファイルが存在しません: %s" file))
+      (message "記事をはてなブログに保存中...")
+      (hatena-blog-writer-api-entry-put user blog (hbw-entry-id entry)))))
 
 (defun hbw-command-diff ()
   "カーソル行のエントリーのローカル contents.md とサーバーの content を比較する (d)"
