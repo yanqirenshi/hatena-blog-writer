@@ -23,7 +23,10 @@
     map)
   "hatena-blog-writer-mode のキーマップ")
 
-(define-key hatena-blog-writer-mode-map (kbd "D") #'hbw-command-new-draft)
+;; 再読み込み時に旧バージョンのキーバインドを解除する。
+(when (eq (lookup-key hatena-blog-writer-mode-map (kbd "D")) #'hbw-command-new-draft)
+  (define-key hatena-blog-writer-mode-map (kbd "D") nil))
+(define-key hatena-blog-writer-mode-map (kbd "I") #'hbw-command-new-draft)
 (define-key hatena-blog-writer-mode-map (kbd "U") #'hbw-command-upload)
 
 ;;

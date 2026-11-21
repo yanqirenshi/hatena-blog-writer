@@ -35,7 +35,7 @@ published の場合は read-only、draft の場合は編集可能で開く。"
         (message "[read-only] 公開済みエントリーです")))))
 
 (defun hbw-command-new-draft ()
-  "はてなブログに下書きを作成し、記事一覧を更新する (D)。"
+  "はてなブログに下書きを作成し、記事一覧を更新する (I)。"
   (interactive)
   (let ((buffer (current-buffer))
         (user *hatena-blog-writer-current-user*)
@@ -63,7 +63,7 @@ published の場合は read-only、draft の場合は編集可能で開く。"
   "キーバインド一覧を表示する (?)"
   (interactive)
   (message (concat "l:Load  r:Refresh  R:Refresh-all  "
-                   "d:Diff  D:New draft  U:Upload  p:Push  k:Remove  RET:Open  q:Quit  ?:Help")))
+                   "d:Diff  I:New draft  U:Upload  p:Push  k:Remove  RET:Open  q:Quit  ?:Help")))
 
 ;;
 ;; ediff ユーティリティ
