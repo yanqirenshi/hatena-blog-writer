@@ -19,37 +19,60 @@
   (hatena-blog-writer-render-buffer (current-buffer))
   (message "再描画しました"))
 
-(defvar-local hbw--contents-title-prefix nil
-  "本文バッファでタイトルの前に表示するオーバーレイ。")
+(defun hbw--encode-contents (start end _buffer)
+  "保存用コピーから編集画面のラベルと区切り線を取り除く。"
+  (let ((inhibit-read-only t))
+    (save-restriction
+      (narrow-to-region start end)
+      (goto-char start)
+      (while-let ((field (text-property-search-forward 'hbw-decoration t t)))
+        (delete-region (prop-match-beginning field) (prop-match-end field)))
+      (point-max))))
 
-(defvar-local hbw--contents-title-separator nil
-  "本文バッファでタイトルの後に表示するオーバーレイ。")
+(add-to-list 'format-alist
+             '(hbw-contents "Hatena Blog contents" nil nil hbw--encode-contents t nil t))
 
-(defun hbw--update-contents-title-display (&rest _)
-  "ファイルの1行目にタイトルのラベルと区切り線を表示する。"
-  (save-restriction
-    (widen)
-    (save-excursion
-      (goto-char (point-min))
-      (move-overlay hbw--contents-title-prefix (point) (point))
-      (end-of-line)
-      ;; タイトル末尾の入力位置を空け、区切り線は本文の直前に表示する。
-      (if (eobp)
-          (delete-overlay hbw--contents-title-separator)
-        (forward-char 1)
-        (move-overlay hbw--contents-title-separator (point) (point))))))
+(defun hbw--protect-contents-decoration (_overlay after &rest _)
+  "タイトルラベルと区切り線の変更を拒否する。"
+  (unless (or after inhibit-read-only)
+    (user-error "タイトルラベルと区切り線は編集できません")))
 
 (defun hbw--show-contents-title ()
-  "本文バッファを変更せず、タイトルと本文の境界を表示する。"
-  (unless (overlayp hbw--contents-title-prefix)
-    (setq hbw--contents-title-prefix (make-overlay (point-min) (point-min))
-          hbw--contents-title-separator (make-overlay (point-min) (point-min)))
-    (overlay-put hbw--contents-title-prefix 'before-string "Title: ")
-    (add-hook 'after-change-functions #'hbw--update-contents-title-display nil t))
-  (overlay-put hbw--contents-title-separator 'after-string nil)
-  (overlay-put hbw--contents-title-separator 'before-string
-               "---------------------------------------\n")
-  (hbw--update-contents-title-display))
+  "カーソルを置ける編集不可のタイトル装飾を挿入する。"
+  (save-restriction
+    (widen)
+    (let ((inhibit-read-only t))
+      (with-silent-modifications
+        (save-excursion
+          (goto-char (point-min))
+          (unless (get-text-property (point) 'hbw-decoration)
+            (insert (propertize "Title: " 'hbw-decoration t))
+            (end-of-line)
+            (unless (eobp)
+              (forward-char 1)
+              (insert (propertize "---------------------------------------\n"
+                                  'hbw-decoration t))))
+          (goto-char (point-min))
+          (remove-overlays (point-min) (point-max) 'hbw-decoration-guard t)
+          (while-let ((field (text-property-search-forward 'hbw-decoration t t)))
+            (let* ((start (prop-match-beginning field))
+                   (end (prop-match-end field))
+                   (label (eq start (point-min)))
+                   (guard-start (if label start (1- start)))
+                   (guard (make-overlay guard-start end nil (not label) nil)))
+              ;; 旧バージョンのプロパティを取り除き、入力境界を編集可能にする。
+              (remove-text-properties guard-start end
+                                      '(read-only nil front-sticky nil rear-nonsticky nil))
+              (when label
+                (put-text-property start end 'field 'hbw-title-label)
+                (overlay-put guard 'insert-in-front-hooks
+                             '(hbw--protect-contents-decoration)))
+              (put-text-property (1- end) end 'rear-nonsticky t)
+              (overlay-put guard 'hbw-decoration-guard t)
+              (overlay-put guard 'modification-hooks
+                           '(hbw--protect-contents-decoration))))))))
+  (add-to-list 'buffer-file-format 'hbw-contents)
+  (add-hook 'after-revert-hook #'hbw--show-contents-title nil t))
 
 (defun hbw-command-open ()
   "カーソル行のエントリーの contents.md を開く (RET)
@@ -63,6 +86,8 @@ published の場合は read-only、draft の場合は編集可能で開く。"
         (user-error "ファイルが存在しません: %s" file))
       (find-file file)
       (hbw--show-contents-title)
+      (when (bobp)
+        (goto-char (next-single-property-change (point) 'field nil (point-max))))
       (when (not (hbw-entry-draft-p entry))
         (setq buffer-read-only t)
         (message "[read-only] 公開済みエントリーです")))))
