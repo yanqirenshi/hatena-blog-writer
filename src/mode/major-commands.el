@@ -19,6 +19,38 @@
   (hatena-blog-writer-render-buffer (current-buffer))
   (message "再描画しました"))
 
+(defvar-local hbw--contents-title-prefix nil
+  "本文バッファでタイトルの前に表示するオーバーレイ。")
+
+(defvar-local hbw--contents-title-separator nil
+  "本文バッファでタイトルの後に表示するオーバーレイ。")
+
+(defun hbw--update-contents-title-display (&rest _)
+  "ファイルの1行目にタイトルのラベルと区切り線を表示する。"
+  (save-restriction
+    (widen)
+    (save-excursion
+      (goto-char (point-min))
+      (move-overlay hbw--contents-title-prefix (point) (point))
+      (end-of-line)
+      ;; タイトル末尾の入力位置を空け、区切り線は本文の直前に表示する。
+      (if (eobp)
+          (delete-overlay hbw--contents-title-separator)
+        (forward-char 1)
+        (move-overlay hbw--contents-title-separator (point) (point))))))
+
+(defun hbw--show-contents-title ()
+  "本文バッファを変更せず、タイトルと本文の境界を表示する。"
+  (unless (overlayp hbw--contents-title-prefix)
+    (setq hbw--contents-title-prefix (make-overlay (point-min) (point-min))
+          hbw--contents-title-separator (make-overlay (point-min) (point-min)))
+    (overlay-put hbw--contents-title-prefix 'before-string "Title: ")
+    (add-hook 'after-change-functions #'hbw--update-contents-title-display nil t))
+  (overlay-put hbw--contents-title-separator 'after-string nil)
+  (overlay-put hbw--contents-title-separator 'before-string
+               "---------------------------------------\n")
+  (hbw--update-contents-title-display))
+
 (defun hbw-command-open ()
   "カーソル行のエントリーの contents.md を開く (RET)
 published の場合は read-only、draft の場合は編集可能で開く。"
@@ -30,6 +62,7 @@ published の場合は read-only、draft の場合は編集可能で開く。"
       (unless (file-exists-p file)
         (user-error "ファイルが存在しません: %s" file))
       (find-file file)
+      (hbw--show-contents-title)
       (when (not (hbw-entry-draft-p entry))
         (setq buffer-read-only t)
         (message "[read-only] 公開済みエントリーです")))))
